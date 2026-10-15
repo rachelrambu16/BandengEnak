@@ -1,0 +1,60 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @author   Taylor Otwell <taylor@laravel.com>
+ */
+
+use Illuminate\Foundation\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
+/*
+|--------------------------------------------------------------------------
+| Waktu Mulai Aplikasi
+|--------------------------------------------------------------------------
+|
+| Baris ini digunakan untuk menandai waktu mulai eksekusi aplikasi
+| agar kita bisa menghitung total waktu yang dibutuhkan.
+|
+*/
+define('LARAVEL_START', microtime(true));
+
+/*
+|--------------------------------------------------------------------------
+| Registrasi Autoloader Composer
+|--------------------------------------------------------------------------
+|
+| Composer menyediakan autoloader yang dihasilkan secara otomatis untuk
+| aplikasi kita. Kita hanya perlu memuatnya ke dalam script ini.
+|
+*/
+require __DIR__.'/vendor/autoload.php';
+
+/*
+|--------------------------------------------------------------------------
+| Bootstrap Laravel dan Tangani Perintah
+|--------------------------------------------------------------------------
+|
+| Kita akan memuat framework Laravel dan mengeksekusi perintah yang
+| dikirim melalui terminal (CLI) menggunakan input ArgvInput.
+|
+*/
+/** @var Application $app */
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+$status = $app->handleCommand(new ArgvInput);
+
+/*
+|--------------------------------------------------------------------------
+| Keluar dengan Status
+|--------------------------------------------------------------------------
+|
+| Terakhir, kita keluar dari script dengan kode status yang dihasilkan
+| oleh perintah yang dijalankan.
+|
+*/
+exit($status);
+
