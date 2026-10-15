@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <span class="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 text-sm font-black text-white shadow-md shadow-orange-500/30">S</span>
                 <div>
                     <p class="font-bold text-gray-900">Bandeng Presto Samudera</p>
-                    <p class="text-sm text-gray-400">Semarang, Jawa Tengah</p>
+                    <p class="text-sm text-gray-400">Gunung Kidul, DI Yogyakarta</p>
                 </div>
             </div>
             <p class="text-sm text-gray-400">&copy; {{ date('Y') }} Samudera. Hak cipta dilindungi.</p>

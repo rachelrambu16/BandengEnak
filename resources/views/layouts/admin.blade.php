@@ -31,7 +31,7 @@
     <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-orange-100 flex-shrink-0 min-h-screen flex flex-col transition-transform duration-300 ease-in-out md:translate-x-0 shadow-lg md:shadow-none">
         <div class="h-16 flex items-center justify-between px-6 border-b border-orange-100">
             <a href="/" class="flex items-center gap-2 font-bold text-lg tracking-tight text-gray-900">
-                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-sm text-white shadow-md shadow-orange-500/30">S</span>
+                <span class="grid size-10 place-items-center rounded-xl bg-orange-500 text-sm font-black text-white shadow-md">S</span>
                 SAMUDERA
             </a>
             <button @click="sidebarOpen = false" class="md:hidden text-gray-400 hover:text-gray-600">
