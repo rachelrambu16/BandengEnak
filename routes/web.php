@@ -1,9 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+
 
 
 Route::get('/', [PageController::class, 'landing']);
@@ -125,7 +129,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profil-karyawan', [AdminController::class, 'profilKaryawan'])
         ->name('karyawan.profil');
 
+    // Profil pelanggan
+    Route::get('/profil-pelanggan', [AuthController::class, 'profilPelanggan'])
+        ->name('pelanggan.profil');
 
+    Route::put('/profil-pelanggan', [AuthController::class, 'updateProfilPelanggan'])
+        ->name('pelanggan.profil.update');
 });
 
 

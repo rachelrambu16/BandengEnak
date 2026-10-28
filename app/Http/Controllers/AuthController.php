@@ -86,4 +86,39 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
+
+    public function profilPelanggan(){
+    $pelanggan = Auth::user();
+    return view('auth.profilpelanggan', compact('pelanggan'));
+}
+    
+public function updateProfilPelanggan(Request $request)
+{
+    $pelanggan = Auth::user();
+
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $pelanggan->id,
+        'password' => 'nullable|string|min:8',
+        'alamat' => 'nullable|string|max:1000',
+        'phone_number' => 'nullable|string|max:15',
+    ]);
+
+    $pelanggan->name = $validatedData['name'];
+    $pelanggan->email = $validatedData['email'];
+    $pelanggan->alamat = $validatedData['alamat'] ?? null;
+    $pelanggan->phone_number = $validatedData['phone_number'] ?? null;
+
+    // Password hanya diubah jika diisi
+    if (!empty($validatedData['password'])) {
+        $pelanggan->password = Hash::make($validatedData['password']);
+    }
+
+    $pelanggan->save();
+
+    return redirect()
+        ->route('pelanggan.profil')
+        ->with('success', 'Profil berhasil diperbarui!');
+}
+
 }

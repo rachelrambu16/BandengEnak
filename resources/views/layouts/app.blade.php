@@ -24,6 +24,22 @@
                     <a href="/katalog" class="rounded-full px-4 py-2 text-gray-600 transition hover:bg-orange-50 hover:text-orange-600">Katalog</a>
                     <a href="/keranjang" class="rounded-full px-4 py-2 text-gray-600 transition hover:bg-orange-50 hover:text-orange-600">Keranjang</a>
                     <a href="/riwayat" class="rounded-full px-4 py-2 text-gray-600 transition hover:bg-orange-50 hover:text-orange-600">Riwayat</a>
+                    {{-- Ikon Profil Pelanggan --}}
+        @if (auth()->user()->role === 'pelanggan')
+            <a href="{{ route('pelanggan.profil') }}"
+               class="flex items-center justify-center rounded-full bg-orange-50 p-3 text-orange-600 transition hover:bg-orange-500 hover:text-white"
+               title="Profil Pelanggan"
+               aria-label="Profil Pelanggan">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="h-5 w-5"
+                     viewBox="0 0 24 24"
+                     fill="currentColor">
+                    <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5c0-3-4-5.5-9-5.5Z"/>
+                </svg>
+            </a>
+        @endif
+
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="rounded-full bg-orange-500 px-5 py-2.5 text-white shadow-md shadow-orange-500/25 transition hover:bg-orange-600 hover:shadow-lg hover:shadow-orange-500/30">Logout</button>
@@ -48,6 +64,20 @@
                 <a href="/katalog" class="block py-2 text-gray-600 hover:text-orange-600 transition">Katalog</a>
                 <a href="/keranjang" class="block py-2 text-gray-600 hover:text-orange-600 transition">Keranjang</a>
                 <a href="/riwayat" class="block py-2 text-gray-600 hover:text-orange-600 transition">Riwayat</a>
+                @if (auth()->user()->role === 'pelanggan')
+                    <a href="{{ route('pelanggan.profil') }}"
+                    class="flex items-center gap-3 py-2 text-gray-600 transition hover:text-orange-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5c0-3-4-5.5-9-5.5Z"/>
+                        </svg>
+
+                        <span>Profil Pelanggan</span>
+                    </a>
+                @endif
                 <form action="{{ route('logout') }}" method="POST" class="block mt-2">
                     @csrf
                     <button type="submit" class="w-full rounded-lg bg-orange-500 px-5 py-3 text-white text-center shadow-md shadow-orange-500/25 hover:bg-orange-600 transition">Logout</button>
@@ -57,6 +87,7 @@
                 <a href="/login" class="block py-2 text-gray-600 hover:text-orange-600 transition">Login</a>
                 <a href="/register" class="block w-full rounded-lg bg-orange-500 px-5 py-3 text-white text-center shadow-md shadow-orange-500/25 hover:bg-orange-600 transition mt-2">Daftar</a>
             @endauth
+
         </div>
     </nav>
 
