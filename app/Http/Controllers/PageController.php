@@ -32,6 +32,17 @@ class PageController extends Controller
         return view('katalog', compact('products'));
     }
 
+      /**
+     * Menampilkan detail produk berdasarkan ID.
+     */
+    public function detailProduk($id)
+    {
+        $product = Product::findOrFail($id);
+
+        return view('detailProduk', compact('product'));
+    }
+
+
     /**
      * Menampilkan riwayat pesanan pelanggan.
      */

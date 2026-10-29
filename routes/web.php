@@ -9,7 +9,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 
 
-
 Route::get('/', [PageController::class, 'landing']);
 
 
@@ -135,6 +134,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('/profil-pelanggan', [AuthController::class, 'updateProfilPelanggan'])
         ->name('pelanggan.profil.update');
+
+    Route::get('/produk/{id}', [PageController::class, 'detailProduk'])
+    ->name('produk.detail');
 });
 
 
