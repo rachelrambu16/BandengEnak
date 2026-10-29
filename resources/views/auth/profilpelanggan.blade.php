@@ -10,7 +10,7 @@
         @if (session('success'))
             <div class="mb-6 flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-medium text-emerald-800 shadow-sm transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-emerald-600" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm-1 14.59L6.41 12l1.41-1.41L11 13.17l5.59-5.58L18 9Z"/>
+                    <path d="M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10Zm-1 14.59L6.41 12l1.41-1.41L11 13.17l5.59-5.58L18 9Z"/>
                 </svg>
                 <span>{{ session('success') }}</span>
             </div>
@@ -23,7 +23,7 @@
 
                 {{-- Header Identitas Pelanggan --}}
                 <div class="flex items-center gap-5 border-b border-orange-100/80 pb-8">
-                    {{-- Kotak Ikon Profil yang Diperbaiki agar Pasti Muncul --}}
+
                     <div class="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-orange-100 text-orange-600 shadow-inner">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-orange-600" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5c0-3-4-5.5-9-5.5Z"/>
@@ -52,18 +52,14 @@
                         <label for="email" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
                             E-mail
                         </label>
-                        <div class="relative">
-                            <input type="email"
-                                   id="email"
-                                   name="email"
-                                   value="{{ old('email', $pelanggan->email) }}"
-                                   required
-                                   class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 pr-12 text-sm font-medium text-slate-800 outline-none transition-all duration-200 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-orange-500" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/>
-                            </svg>
-                        </div>
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               value="{{ old('email', $pelanggan->email) }}"
+                               required
+                               class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm font-medium text-slate-800 outline-none transition-all duration-200 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
+
                         @error('email')
                             <p class="mt-2 text-xs font-semibold text-red-600">{{ $message }}</p>
                         @enderror
@@ -74,18 +70,14 @@
                         <label for="name" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
                             Nama Lengkap
                         </label>
-                        <div class="relative">
-                            <input type="text"
-                                   id="name"
-                                   name="name"
-                                   value="{{ old('name', $pelanggan->name) }}"
-                                   required
-                                   class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 pr-12 text-sm font-medium text-slate-800 outline-none transition-all duration-200 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-orange-500" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/>
-                            </svg>
-                        </div>
+                        <input type="text"
+                               id="name"
+                               name="name"
+                               value="{{ old('name', $pelanggan->name) }}"
+                               required
+                               class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm font-medium text-slate-800 outline-none transition-all duration-200 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
+
                         @error('name')
                             <p class="mt-2 text-xs font-semibold text-red-600">{{ $message }}</p>
                         @enderror
@@ -96,22 +88,19 @@
                         <label for="password" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
                             Password
                         </label>
-                        <div class="relative">
-                            <input type="password"
-                                   id="password"
-                                   name="password"
-                                   minlength="8"
-                                   autocomplete="new-password"
-                                   placeholder="Kosongkan jika tidak diubah"
-                                   class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 pr-12 text-sm font-medium text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-orange-500" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/>
-                            </svg>
-                        </div>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               minlength="8"
+                               autocomplete="new-password"
+                               placeholder="Kosongkan jika tidak diubah"
+                               class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm font-medium text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
+
                         <p class="mt-2 text-xs text-slate-400">
                             * Isi hanya jika ingin mengganti password baru.
                         </p>
+
                         @error('password')
                             <p class="mt-2 text-xs font-semibold text-red-600">{{ $message }}</p>
                         @enderror
@@ -122,16 +111,12 @@
                         <label for="alamat" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
                             Alamat
                         </label>
-                        <div class="relative">
-                            <textarea id="alamat"
-                                      name="alamat"
-                                      rows="3"
-                                      class="w-full resize-y rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 pr-12 text-sm font-medium text-slate-800 outline-none transition-all duration-200 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">{{ old('alamat', $pelanggan->alamat ?? '') }}</textarea>
 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="pointer-events-none absolute right-4 top-4 h-5 w-5 text-orange-500" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/>
-                            </svg>
-                        </div>
+                        <textarea id="alamat"
+                                  name="alamat"
+                                  rows="3"
+                                  class="w-full resize-y rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm font-medium text-slate-800 outline-none transition-all duration-200 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">{{ old('alamat', $pelanggan->alamat ?? '') }}</textarea>
+
                         @error('alamat')
                             <p class="mt-2 text-xs font-semibold text-red-600">{{ $message }}</p>
                         @enderror
@@ -142,18 +127,14 @@
                         <label for="phone_number" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
                             Nomor Telepon
                         </label>
-                        <div class="relative">
-                            <input type="tel"
-                                   id="phone_number"
-                                   name="phone_number"
-                                   value="{{ old('phone_number', $pelanggan->phone_number ?? '') }}"
-                                   maxlength="15"
-                                   class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 pr-12 text-sm font-medium text-slate-800 outline-none transition-all duration-200 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-orange-500" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/>
-                            </svg>
-                        </div>
+                        <input type="tel"
+                               id="phone_number"
+                               name="phone_number"
+                               value="{{ old('phone_number', $pelanggan->phone_number ?? '') }}"
+                               maxlength="15"
+                               class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm font-medium text-slate-800 outline-none transition-all duration-200 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
+
                         @error('phone_number')
                             <p class="mt-2 text-xs font-semibold text-red-600">{{ $message }}</p>
                         @enderror
@@ -161,7 +142,7 @@
 
                     {{-- Tombol Navigasi Bawah (Kembali & Simpan) --}}
                     <div class="mt-10 flex flex-col-reverse items-center justify-between gap-4 border-t border-orange-100/80 pt-8 sm:flex-row">
-                        
+
                         {{-- Tombol Kembali --}}
                         <a href="{{ route('katalog') }}"
                            class="group inline-flex items-center gap-2.5 text-sm font-semibold text-slate-500 transition-colors hover:text-orange-600">

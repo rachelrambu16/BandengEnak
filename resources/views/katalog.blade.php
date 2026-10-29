@@ -48,7 +48,7 @@
         @if (session('success'))
             <div class="mb-8 flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 px-5 py-4 rounded-2xl shadow-sm max-w-2xl mx-auto animate-fade-in" role="alert">
                 <div class="flex-shrink-0 w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 6 9 17l-5-5"/>
                     </svg>
                 </div>
@@ -146,24 +146,38 @@
                                 </div>
 
                                 {{-- Tombol keranjang --}}
-                                @auth
-                                    @if(auth()->user()->role === 'pelanggan')
-                                        <form action="{{ route('keranjang.store', $product->id) }}" method="POST">
+                                @if($product->stok > 0)
+                                    @auth
+                                        @if(auth()->user()->role === 'pelanggan')
+                                            <form action="{{ route('keranjang.store', $product->id) }}" method="POST">
                                             @csrf
-
+                                            <input type="hidden" name="jumlah" value="1">
                                             <button type="submit"
-                                                    class="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold px-5 py-3 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105 active:scale-95 cursor-pointer"
-                                                    @if($product->stok <= 0) disabled title="Stok habis" @endif>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <circle cx="8" cy="21" r="1"/>
-                                                    <circle cx="19" cy="21" r="1"/>
-                                                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
-                                                </svg>
-                                                <span class="hidden sm:inline">Keranjang</span>
-                                            </button>
-                                        </form>
-                                    @endif
-                                @endauth
+                                            class="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold px-5 py-3 rounded-xl"
+                                            @if($product->stok <= 0) disabled title="Stok habis" @endif>
+                                            Keranjang
+                                        </button>
+                                    </form>       
+                                     @endif
+                                    @else
+                                        <a href="{{ route('login') }}"
+                                           class="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold px-5 py-3 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105 active:scale-95">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="8" cy="21" r="1"/>
+                                                <circle cx="19" cy="21" r="1"/>
+                                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                            </svg>
+                                            <span class="hidden sm:inline">Keranjang</span>
+                                        </a>
+                                    @endauth
+                                @else
+                                    <button type="button"
+                                            disabled
+                                            title="Stok habis"
+                                            class="flex items-center gap-2 bg-gray-300 text-white font-semibold px-5 py-3 rounded-xl cursor-not-allowed">
+                                        <span>Stok Habis</span>
+                                    </button>
+                                @endif
 
                             </div>
                         </div>

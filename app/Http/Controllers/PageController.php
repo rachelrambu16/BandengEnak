@@ -4,36 +4,46 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Transaction;
 
-/**
- * Controller ini menangani tampilan halaman umum (Landing Page & Katalog).
- */
 class PageController extends Controller
 {
     /**
-     * Menampilkan halaman utama (Landing Page).
+     * Menampilkan halaman utama.
      */
     public function landing()
     {
         $featuredProducts = Product::take(4)->get();
+
         return view('welcome', compact('featuredProducts'));
     }
 
     /**
-     * Menampilkan halaman katalog produk.
-     * Mengambil semua data produk dari database untuk ditampilkan.
+     * Menampilkan katalog dan mencari produk berdasarkan nama.
+     * Bisa diakses tanpa login.
      */
-    public function katalog()
+    public function katalog(Request $request)
     {
-        // Mengambil seluruh data dari tabel products
-        $products = Product::all();
-        
-    // Mengirim data produk ke view 'katalog'
+        $query = Product::query();
+
+        if ($request->filled('search')) {
+            $kataKunci = trim($request->input('search'));
+
+            $query->where(
+                'nama_produk',
+                'LIKE',
+                '%' . $kataKunci . '%'
+            );
+        }
+
+        $products = $query->get();
+
         return view('katalog', compact('products'));
     }
 
-      /**
-     * Menampilkan detail produk berdasarkan ID.
+    /**
+     * Menampilkan detail produk.
+     * Bisa diakses tanpa login.
      */
     public function detailProduk($id)
     {
@@ -42,9 +52,8 @@ class PageController extends Controller
         return view('detailProduk', compact('product'));
     }
 
-
     /**
-     * Menampilkan riwayat pesanan pelanggan.
+     * Menampilkan riwayat pesanan pelanggan yang login.
      */
     public function riwayat()
     {
@@ -52,12 +61,11 @@ class PageController extends Controller
             return redirect('/login');
         }
 
-        $transactions = \App\Models\Transaction::with('details.product')
+        $transactions = Transaction::with('details.product')
             ->where('user_id', auth()->id())
             ->orderBy('created_at', 'desc')
             ->get();
-            
+
         return view('riwayat', compact('transactions'));
     }
 }
-
