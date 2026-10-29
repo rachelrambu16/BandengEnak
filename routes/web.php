@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', [PageController::class, 'landing']);
-
 
 // Autentikasi
 Route::get('/register', [AuthController::class, 'formRegister']);
@@ -21,11 +21,7 @@ Route::get('/login', [AuthController::class, 'formLogin'])
 
 Route::post('/login', [AuthController::class, 'ProcessLogin']);
 
-
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
-
-// Login
+// Login Middleware Group
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -50,9 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/riwayat', [PageController::class, 'riwayat'])
         ->name('riwayat');
 
-
     // ADMIN & KARYAWAN DASHBOARD
-    // Dashboard
     Route::get('/admin/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
         ->name('admin.dashboard');
 
@@ -65,29 +59,29 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.daftarpelanggan');
 
     // ADMIN CRUD PRODUK
-    // Menampilkan semua produk
+    // Menampilkan semua produk (Sudah mendukung fitur pencarian & pagination)
     Route::get('/admin/kelola_produk', [AdminController::class, 'index'])
         ->name('admin.kelola_produk');
         
     // Form tambah produk
     Route::get('/admin/tambah_produk', [AdminController::class, 'create'])
-    ->name('admin.tambah_produk.create');
+        ->name('admin.tambah_produk.create');
     
     // Simpan produk
     Route::post('/admin/tambah_produk', [AdminController::class, 'store'])
-    ->name('admin.tambah_produk.store');
+        ->name('admin.tambah_produk.store');
     
     // Form edit produk
     Route::get('/admin/edit_produk/{id}', [AdminController::class, 'edit'])
-    ->name('admin.edit_produk');
+        ->name('admin.edit_produk');
     
     // Update produk
     Route::put('/admin/update_produk/{id}', [AdminController::class, 'update'])
-    ->name('admin.update_produk');
+        ->name('admin.update_produk');
     
     // Hapus produk
     Route::delete('/admin/hapus_produk/{id}', [AdminController::class, 'destroy'])
-    ->name('admin.hapus_produk');
+        ->name('admin.hapus_produk');
 
     // ADMIN MANAJEMEN TRANSAKSI
     Route::get('/admin/transactions', [\App\Http\Controllers\TransactionAdminController::class, 'index'])
@@ -96,39 +90,31 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.transactions.update_status');
 
     // KELOLA KARYAWAN
-    // Daftar karyawan 
     Route::get('/admin/kelola_karyawan', [AdminController::class, 'karyawan'])
         ->name('admin.karyawan');
 
-    // Form tambah karyawan
     Route::get('/admin/tambah_karyawan', [AdminController::class, 'createKaryawan'])
         ->name('admin.karyawan.create');
 
-    // Simpan akun karyawan 
     Route::post('/admin/tambah_karyawan', [AdminController::class, 'storeKaryawan'])
         ->name('admin.karyawan.store');
 
-    // Lihat profil karyawan
     Route::get('/admin/karyawan/{id}', [AdminController::class, 'showKaryawan'])
         ->name('admin.karyawan.show');
 
-    // Form edit profil karyawan
     Route::get('/admin/karyawan/{id}/edit', [AdminController::class, 'editKaryawan'])
         ->name('admin.karyawan.edit');
 
-    // Simpan perubahan profil karyawan
     Route::put('/admin/karyawan/{id}', [AdminController::class, 'updateKaryawan'])
         ->name('admin.karyawan.update');
 
-    // Hapus akun karyawan 
     Route::delete('/admin/karyawan/{id}', [AdminController::class, 'destroyKaryawan'])
         ->name('admin.karyawan.destroy');
 
-    // Profil milik karyawan yang sedang login
+    // Profil Karyawan & Pelanggan
     Route::get('/profil-karyawan', [AdminController::class, 'profilKaryawan'])
         ->name('karyawan.profil');
 
-    // Profil pelanggan
     Route::get('/profil-pelanggan', [AuthController::class, 'profilPelanggan'])
         ->name('pelanggan.profil');
 
@@ -136,8 +122,5 @@ Route::middleware(['auth'])->group(function () {
         ->name('pelanggan.profil.update');
 
     Route::get('/produk/{id}', [PageController::class, 'detailProduk'])
-    ->name('produk.detail');
+        ->name('produk.detail');
 });
-
-
-  

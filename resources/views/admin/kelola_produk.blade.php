@@ -26,6 +26,38 @@
     </div>
 @endif
 
+<!-- FORM PENCARIAN PRODUK -->
+<div class="mb-6 bg-white p-4 rounded-2xl shadow-sm border border-orange-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <form action="{{ route('admin.kelola_produk') }}" method="GET" class="flex w-full sm:w-auto flex-1 max-w-md gap-2">
+        <div class="relative flex-1">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </span>
+            <input 
+                type="text" 
+                name="search" 
+                value="{{ request('search') }}" 
+                placeholder="Cari nama produk atau deskripsi..." 
+                class="w-full pl-10 pr-4 py-2 border border-orange-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+            >
+        </div>
+        <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded-xl text-sm font-medium hover:bg-orange-600 transition-colors shadow-sm">
+            Cari
+        </button>
+        @if(request('search'))
+            <a href="{{ route('admin.kelola_produk') }}" class="px-4 py-2 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors flex items-center justify-center">
+                Reset
+            </a>
+        @endif
+    </form>
+
+    @if(request('search'))
+        <div class="text-sm text-gray-500">
+            Menampilkan hasil pencarian untuk: <span class="font-semibold text-gray-800">"{{ request('search') }}"</span>
+        </div>
+    @endif
+</div>
+
 <div class="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm whitespace-nowrap">
@@ -38,7 +70,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-orange-50">
-                @foreach($products as $product)
+                @forelse($products as $product)
                 <tr class="hover:bg-orange-50/30 transition-colors">
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-4">
@@ -80,14 +112,26 @@
                         </div>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="4" class="p-8 text-center text-gray-500">
+                        @if(request('search'))
+                            Produk dengan kata kunci <span class="font-semibold text-gray-700">"{{ request('search') }}"</span> tidak ditemukan. <a href="{{ route('admin.kelola_produk') }}" class="text-orange-600 font-medium hover:underline">Reset pencarian</a>
+                        @else
+                            Belum ada produk. @if(auth()->user()->role === 'admin') <a href="{{ route('admin.tambah_produk.create') }}" class="text-orange-600 font-medium hover:underline">Tambah sekarang</a> @endif
+                        @endif
+                    </td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
-        @if($products->isEmpty())
-            <div class="p-8 text-center text-gray-500">
-                Belum ada produk. @if(auth()->user()->role === 'admin') <a href="{{ route('admin.tambah_produk.create') }}" class="text-orange-600 font-medium hover:underline">Tambah sekarang</a> @endif
-            </div>
-        @endif
     </div>
+    
+    <!-- PAGINATION LINKS -->
+    @if($products->hasPages())
+        <div class="px-6 py-4 border-t border-orange-100 bg-orange-50/20">
+            {{ $products->withQueryString()->links() }}
+        </div>
+    @endif
 </div>
 @endsection

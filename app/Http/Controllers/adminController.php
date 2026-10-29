@@ -25,15 +25,22 @@ class AdminController extends Controller
     }
 
     /**
-     * Menampilkan semua produk
+     * Menampilkan semua produk (pencarian difokuskan HANYA pada nama produk & pagination)
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorizeProductManagement();
 
-        $products = Product::all();
+        $search = $request->input('search');
 
-        return view('admin.kelola_produk', compact('products'));
+        // Query produk: pencarian hanya pada kolom 'nama_produk'
+        $products = Product::when($search, function ($query, $search) {
+                return $query->where('nama_produk', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10); // Menampilkan 10 data per halaman
+
+        return view('admin.kelola_produk', compact('products', 'search'));
     }
 
     /**
@@ -118,14 +125,12 @@ class AdminController extends Controller
 
         // Jika upload gambar baru
         if ($request->hasFile('gambar')) {
-
             // Hapus gambar lama
             if ($product->gambar && Storage::disk('public')->exists($product->gambar)) {
                 Storage::disk('public')->delete($product->gambar);
             }
 
             $path = $request->file('gambar')->store('produk', 'public');
-
             $product->gambar = $path;
         }
 
@@ -164,7 +169,8 @@ class AdminController extends Controller
     /**
      * Daftar Pelanggan
      */
-    public function pelanggan(){
+    public function pelanggan()
+    {
         $this->authorizeAdminOnly();
 
         $pelanggan = User::where('role', 'pelanggan')
@@ -192,44 +198,65 @@ class AdminController extends Controller
     public function editKaryawan($id)
     {
         if (!Auth::check()) {
-            abort(403, 'Silakan login terlebih dahulu.');}
-            if (Auth::user()->role === 'admin') {
-                $karyawan = User::where('role', 'karyawan')->findOrFail($id);
-                } elseif (Auth::user()->role === 'karyawan') {
-                    if (Auth::id() != $id) {
-                        abort(403, 'Anda hanya dapat mengedit profil sendiri.');
-                        }
-                        $karyawan = User::where('role', 'karyawan')->findOrFail($id);
-                        } else {
-                            abort(403, 'Anda tidak berhak mengakses halaman ini.');
-                            }
-                            return view('admin.edit_karyawan', compact('karyawan'));
-                            }
+            abort(403, 'Silakan login terlebih dahulu.');
+        }
+
+        if (Auth::user()->role === 'admin') {
+            $karyawan = User::where('role', 'karyawan')->findOrFail($id);
+        } elseif (Auth::user()->role === 'karyawan') {
+            if (Auth::id() != $id) {
+                abort(403, 'Anda hanya dapat mengedit profil sendiri.');
+            }
+            $karyawan = User::where('role', 'karyawan')->findOrFail($id);
+        } else {
+            abort(403, 'Anda tidak berhak mengakses halaman ini.');
+        }
+
+        return view('admin.edit_karyawan', compact('karyawan'));
+    }
 
     //update karyawan (request)
     public function updateKaryawan(Request $request, $id)
     {
         if (!Auth::check()) {
-        abort(403, 'Silakan login terlebih dahulu.');
+            abort(403, 'Silakan login terlebih dahulu.');
         }
+
         if (Auth::user()->role === 'admin') {
             $karyawan = User::where('role', 'karyawan')->findOrFail($id);
-            } elseif (Auth::user()->role === 'karyawan') {
-                if (Auth::id() != $id) {
-                    abort(403, 'Anda hanya dapat mengedit profil sendiri.');
-                    }
-                    $karyawan = User::where('role', 'karyawan')->findOrFail($id);
-                    } else {
-                        abort(403, 'Anda tidak berhak mengubah profil ini.');
-                        }
-                        $request->validate(['name' => 'required|string|max:255','email' => 'required|email|max:255|unique:users,email,' . $id,'phone_number' => 'nullable|string|max:15','alamat' => 'nullable|string|max:255',]);
-                        $karyawan->update(['name' => $request->name,'email' => $request->email,'phone_number' => $request->phone_number,'alamat' => $request->alamat,]);
-                        if (Auth::user()->role === 'admin') {return redirect()->route('admin.karyawan')->with('success', 'Profil karyawan berhasil diperbarui!');}
-                        return redirect()->route('karyawan.profil')->with('success', 'Profil Anda berhasil diperbarui!');
-                        }
+        } elseif (Auth::user()->role === 'karyawan') {
+            if (Auth::id() != $id) {
+                abort(403, 'Anda hanya dapat mengedit profil sendiri.');
+            }
+            $karyawan = User::where('role', 'karyawan')->findOrFail($id);
+        } else {
+            abort(403, 'Anda tidak berhak mengubah profil ini.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $id,
+            'phone_number' => 'nullable|string|max:15',
+            'alamat' => 'nullable|string|max:255',
+        ]);
+
+        $karyawan->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'alamat' => $request->alamat,
+        ]);
+
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.karyawan')->with('success', 'Profil karyawan berhasil diperbarui!');
+        }
+        
+        return redirect()->route('karyawan.profil')->with('success', 'Profil Anda berhasil diperbarui!');
+    }
 
     //tambah akun karyawan
-    public function createKaryawan(){
+    public function createKaryawan()
+    {
         $this->authorizeAdminOnly();
         return view('admin.tambah_karyawan');
     }
@@ -237,41 +264,61 @@ class AdminController extends Controller
     public function storeKaryawan(Request $request)
     {
         $this->authorizeAdminOnly();
-        $request->validate(['name' => 'required|string|max:255','email' => 'required|email|max:255|unique:users,email','phone_number' => 'nullable|string|max:15','alamat' => 'nullable|string|max:255','password' => 'required|string|min:8',]);
-        User::create(['name' => $request->name,'email' => $request->email,'phone_number' => $request->phone_number,'alamat' => $request->alamat,'password' => $request->password,'role' => 'karyawan',]);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'phone_number' => 'nullable|string|max:15',
+            'alamat' => 'nullable|string|max:255',
+            'password' => 'required|string|min:8',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'alamat' => $request->alamat,
+            'password' => $request->password,
+            'role' => 'karyawan',
+        ]);
+
         return redirect()->route('admin.karyawan')->with('success', 'Karyawan berhasil ditambahkan!');
-        }
+    }
 
     //hapus akun karyawan
-    public function destroyKaryawan($id){
+    public function destroyKaryawan($id)
+    {
         $this->authorizeAdminOnly();
         $karyawan = User::where('role', 'karyawan')->findOrFail($id);
         $karyawan->delete();
+        
         return redirect()->route('admin.karyawan')->with('success', 'Profil karyawan berhasil dihapus!');
-        }
+    }
 
     //lihat profil karyawan 
     public function showKaryawan($id)
     {
         $this->authorizeAdminOnly();
         $karyawan = User::where('role', 'karyawan')->findOrFail($id);
+        
         return view('admin.profil_karyawan', compact('karyawan'));
-        }
+    }
 
     //untuk karyawan
     public function profilKaryawan()
     {
         if (!Auth::check()) {
-        abort(403, 'Silakan login terlebih dahulu.');
-    }
-    if (Auth::user()->role === 'karyawan') {
-        $karyawan = Auth::user();
-    } elseif (Auth::user()->role === 'admin') {
-        return redirect()->route('admin.karyawan');
-    } else {
-        abort(403, 'Anda tidak berhak mengakses halaman ini.');
-    }
-    return view('admin.profil_karyawan', compact('karyawan'));
-    }
+            abort(403, 'Silakan login terlebih dahulu.');
+        }
 
+        if (Auth::user()->role === 'karyawan') {
+            $karyawan = Auth::user();
+        } elseif (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.karyawan');
+        } else {
+            abort(403, 'Anda tidak berhak mengakses halaman ini.');
+        }
+
+        return view('admin.profil_karyawan', compact('karyawan'));
+    }
 }
