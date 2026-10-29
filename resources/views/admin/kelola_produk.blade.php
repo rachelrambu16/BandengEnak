@@ -127,7 +127,6 @@
         </table>
     </div>
     
-    <!-- PAGINATION LINKS -->
     @if($products->hasPages())
         <div class="px-6 py-4 border-t border-orange-100 bg-orange-50/20">
             {{ $products->withQueryString()->links() }}
