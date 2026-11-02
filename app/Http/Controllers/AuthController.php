@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
-
 class AuthController extends Controller
 {
     public function formLogin()
@@ -22,63 +21,59 @@ class AuthController extends Controller
 
     public function ProcessRegister(Request $request)
     {
-        // Validasi input dari pengguna
         $validatedData = $request->validate([
-            "name" => "required|string|max:255", 
+            "name" => "required|string|max:255",
             "email" => "required|email|unique:users,email",
-            "password" => "required|min:8|confirmed", // confirmed berarti butuh input password_confirmation
+            "password" => "required|min:8|confirmed",
             "phone_number" => "required|string|max:15",
         ]);
 
-        // Membuat user baru di database
         $user = User::create([
             "name" => $validatedData["name"],
             "email" => $validatedData["email"],
-            "password" => Hash::make($validatedData["password"]), // Mengamankan password dengan hashing
+            "password" => Hash::make($validatedData["password"]),
             "phone_number" => $validatedData["phone_number"],
-            "role" => "pelanggan" // Default role untuk registrasi baru
+            "role" => "pelanggan"
         ]);
 
-        // Login otomatis setelah registrasi berhasil
         Auth::login($user);
         return redirect("/katalog")->with("success", "Registrasi berhasil!");
     }
 
-    /**
-     * Memproses upaya login pengguna.
-     */
     public function ProcessLogin(Request $request)
     {
-        // Validasi format email dan password
         $credentials = $request->validate([
             "email" => "required|email",
             "password" => "required"
         ]);
 
-        // Mencoba mencocokkan kredensial dengan database
-        if (Auth::attempt($credentials)) {
-            // Mencegah Session Fixation
-            $request->session()->regenerate();
-            
-            $userRole = Auth::user()->role;
-            
-            // Pengalihan halaman berdasarkan role pengguna
-            if ($userRole === 'admin' || $userRole === 'karyawan') {
-                return redirect()->route('admin.dashboard');
-            } else {
-                return redirect('/katalog');
-            }
+        $user = User::where('email', $credentials['email'])->first();
+
+        if ($user?->status_akun === 'nonaktif') {
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors([
+                    'email' => 'Akun Anda sedang dinonaktifkan. Silakan hubungi admin untuk mendapatkan bantuan.'
+                ]);
         }
 
-        // Kembali ke halaman login dengan pesan error jika gagal
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            $userRole = Auth::user()->role;
+
+            if ($userRole === 'admin' || $userRole === 'karyawan') {
+                return redirect()->route('admin.dashboard');
+            }
+
+            return redirect('/katalog');
+        }
+
         return back()->withErrors([
             'email' => 'Akses Ditolak! Email atau password tidak cocok dengan sistem kami.'
         ]);
     }
 
-    /**
-     * Memproses logout pengguna.
-     */
     public function logout(Request $request)
     {
         Auth::logout();
@@ -88,37 +83,35 @@ class AuthController extends Controller
     }
 
     public function profilPelanggan(){
-    $pelanggan = Auth::user();
-    return view('auth.profilpelanggan', compact('pelanggan'));
-}
-    
-public function updateProfilPelanggan(Request $request)
-{
-    $pelanggan = Auth::user();
-
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email,' . $pelanggan->id,
-        'password' => 'nullable|string|min:8',
-        'alamat' => 'nullable|string|max:1000',
-        'phone_number' => 'nullable|string|max:15',
-    ]);
-
-    $pelanggan->name = $validatedData['name'];
-    $pelanggan->email = $validatedData['email'];
-    $pelanggan->alamat = $validatedData['alamat'] ?? null;
-    $pelanggan->phone_number = $validatedData['phone_number'] ?? null;
-
-    // Password hanya diubah jika diisi
-    if (!empty($validatedData['password'])) {
-        $pelanggan->password = Hash::make($validatedData['password']);
+        $pelanggan = Auth::user();
+        return view('auth.profilpelanggan', compact('pelanggan'));
     }
 
-    $pelanggan->save();
+    public function updateProfilPelanggan(Request $request)
+    {
+        $pelanggan = Auth::user();
 
-    return redirect()
-        ->route('pelanggan.profil')
-        ->with('success', 'Profil berhasil diperbarui!');
-}
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $pelanggan->id,
+            'password' => 'nullable|string|min:8',
+            'alamat' => 'nullable|string|max:1000',
+            'phone_number' => 'nullable|string|max:15',
+        ]);
 
+        $pelanggan->name = $validatedData['name'];
+        $pelanggan->email = $validatedData['email'];
+        $pelanggan->alamat = $validatedData['alamat'] ?? null;
+        $pelanggan->phone_number = $validatedData['phone_number'] ?? null;
+
+        if (!empty($validatedData['password'])) {
+            $pelanggan->password = Hash::make($validatedData['password']);
+        }
+
+        $pelanggan->save();
+
+        return redirect()
+            ->route('pelanggan.profil')
+            ->with('success', 'Profil berhasil diperbarui!');
+    }
 }
