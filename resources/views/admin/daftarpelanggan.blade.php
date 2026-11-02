@@ -84,7 +84,7 @@
                                          text-xs font-semibold text-red-700">
                                 Nonaktif
                             </span>
-                        @endif
+                      @endif
                     </td>
 
                     {{-- Aksi blokir / aktifkan --}}
