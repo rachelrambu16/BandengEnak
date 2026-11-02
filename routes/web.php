@@ -85,6 +85,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/daftarpelanggan', [AdminController::class, 'pelanggan'])
         ->name('admin.daftarpelanggan');
 
+    Route::patch('/admin/pelanggan/{id}/blokir', [AdminController::class, 'blokirPelanggan'])
+    ->name('admin.pelanggan.blokir');
+
+    Route::patch('/admin/pelanggan/{id}/aktifkan', [AdminController::class, 'aktifkanPelanggan'])
+    ->name('admin.pelanggan.aktifkan');
+
+
     // Kelola produk
     Route::get('/admin/kelola_produk', [AdminController::class, 'index'])
         ->name('admin.kelola_produk');

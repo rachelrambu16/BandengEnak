@@ -181,6 +181,43 @@ class AdminController extends Controller
     }
 
     /**
+    * Blokir Akun Pelanggan
+    */
+    public function blokirPelanggan($id)
+    {
+     $this->authorizeAdminOnly();
+
+        $pelanggan = User::where('role', 'pelanggan')
+         ->findOrFail($id);
+
+     $pelanggan->status_akun = 'nonaktif';
+     $pelanggan->save();
+
+        return redirect()
+         ->route('admin.daftarpelanggan')
+         ->with('success', 'Akun pelanggan berhasil diblokir!');
+    }
+
+    /**
+     * Aktifkan Kembali Akun Pelanggan
+     */
+    public function aktifkanPelanggan($id)
+    {
+     $this->authorizeAdminOnly();
+
+     $pelanggan = User::where('role', 'pelanggan')
+         ->findOrFail($id);
+
+        $pelanggan->status_akun = 'aktif';
+        $pelanggan->save();
+
+     return redirect()
+            ->route('admin.daftarpelanggan')
+            ->with('success', 'Akun pelanggan berhasil diaktifkan kembali!');
+    }
+
+
+    /**
      * Daftar Karyawan
      */
     public function karyawan()
