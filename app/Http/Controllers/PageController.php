@@ -8,9 +8,6 @@ use App\Models\Transaction;
 
 class PageController extends Controller
 {
-    /**
-     * Menampilkan halaman utama.
-     */
     public function landing()
     {
         $featuredProducts = Product::take(4)->get();
@@ -18,10 +15,6 @@ class PageController extends Controller
         return view('welcome', compact('featuredProducts'));
     }
 
-    /**
-     * Menampilkan katalog dan mencari produk berdasarkan nama.
-     * Bisa diakses tanpa login.
-     */
     public function katalog(Request $request)
     {
         $query = Product::query();
@@ -41,10 +34,6 @@ class PageController extends Controller
         return view('katalog', compact('products'));
     }
 
-    /**
-     * Menampilkan detail produk.
-     * Bisa diakses tanpa login.
-     */
     public function detailProduk($id)
     {
         $product = Product::findOrFail($id);
@@ -52,9 +41,6 @@ class PageController extends Controller
         return view('detailProduk', compact('product'));
     }
 
-    /**
-     * Menampilkan riwayat pesanan pelanggan yang login.
-     */
     public function riwayat()
     {
         if (!auth()->check()) {

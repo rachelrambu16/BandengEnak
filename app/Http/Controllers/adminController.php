@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class AdminController extends Controller
+class adminController extends Controller
 {
     private function authorizeProductManagement()
     {
@@ -24,28 +24,21 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Menampilkan semua produk (pencarian difokuskan HANYA pada nama produk & pagination)
-     */
     public function index(Request $request)
     {
         $this->authorizeProductManagement();
 
         $search = $request->input('search');
 
-        // Query produk: pencarian hanya pada kolom 'nama_produk'
         $products = Product::when($search, function ($query, $search) {
                 return $query->where('nama_produk', 'like', "%{$search}%");
             })
             ->latest()
-            ->paginate(10); // Menampilkan 10 data per halaman
+            ->paginate(10);
 
         return view('admin.kelola_produk', compact('products', 'search'));
     }
 
-    /**
-     * Form tambah produk
-     */
     public function create()
     {
         $this->authorizeAdminOnly();
@@ -53,9 +46,6 @@ class AdminController extends Controller
         return view("admin.tambah_produk");
     }
 
-    /**
-     * Simpan produk baru
-     */
     public function store(Request $request)
     {
         $this->authorizeAdminOnly("Anda tidak berhak menambahkan barang");
@@ -88,9 +78,6 @@ class AdminController extends Controller
             ->with('success', 'Produk berhasil ditambahkan!');
     }
 
-    /**
-     * Form edit produk
-     */
     public function edit($id)
     {
         $this->authorizeProductManagement();
@@ -100,9 +87,6 @@ class AdminController extends Controller
         return view('admin.edit_produk', compact('product'));
     }
 
-    /**
-     * Update produk
-     */
     public function update(Request $request, $id)
     {
         $this->authorizeProductManagement();
@@ -123,9 +107,7 @@ class AdminController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        // Jika upload gambar baru
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama
             if ($product->gambar && Storage::disk('public')->exists($product->gambar)) {
                 Storage::disk('public')->delete($product->gambar);
             }
@@ -146,16 +128,12 @@ class AdminController extends Controller
             ->with('success', 'Produk berhasil diupdate!');
     }
 
-    /**
-     * Hapus produk
-     */
     public function destroy($id)
     {
         $this->authorizeAdminOnly();
 
         $product = Product::findOrFail($id);
 
-        // Hapus gambar
         if ($product->gambar && Storage::disk('public')->exists($product->gambar)) {
             Storage::disk('public')->delete($product->gambar);
         }
@@ -166,9 +144,6 @@ class AdminController extends Controller
             ->with('success', 'Produk berhasil dihapus!');
     }
 
-    /**
-     * Daftar Pelanggan
-     */
     public function pelanggan()
     {
         $this->authorizeAdminOnly();
@@ -180,9 +155,6 @@ class AdminController extends Controller
         return view('admin.daftarpelanggan', compact('pelanggan'));
     }
 
-    /**
-    * Blokir Akun Pelanggan
-    */
     public function blokirPelanggan($id)
     {
      $this->authorizeAdminOnly();
@@ -198,9 +170,6 @@ class AdminController extends Controller
          ->with('success', 'Akun pelanggan berhasil diblokir!');
     }
 
-    /**
-     * Aktifkan Kembali Akun Pelanggan
-     */
     public function aktifkanPelanggan($id)
     {
      $this->authorizeAdminOnly();
@@ -217,9 +186,6 @@ class AdminController extends Controller
     }
 
 
-    /**
-     * Daftar Karyawan
-     */
     public function karyawan()
     {
         $this->authorizeAdminOnly();
@@ -231,7 +197,6 @@ class AdminController extends Controller
         return view('admin.kelola_karyawan', compact('karyawan'));
     }
     
-    //edit profil karyawan (form) 
     public function editKaryawan($id)
     {
         if (!Auth::check()) {
@@ -252,7 +217,6 @@ class AdminController extends Controller
         return view('admin.edit_karyawan', compact('karyawan'));
     }
 
-    //update karyawan (request)
     public function updateKaryawan(Request $request, $id)
     {
         if (!Auth::check()) {
@@ -291,7 +255,6 @@ class AdminController extends Controller
         return redirect()->route('karyawan.profil')->with('success', 'Profil Anda berhasil diperbarui!');
     }
 
-    //tambah akun karyawan
     public function createKaryawan()
     {
         $this->authorizeAdminOnly();
@@ -322,7 +285,6 @@ class AdminController extends Controller
         return redirect()->route('admin.karyawan')->with('success', 'Karyawan berhasil ditambahkan!');
     }
 
-    //hapus akun karyawan
     public function destroyKaryawan($id)
     {
         $this->authorizeAdminOnly();
@@ -332,7 +294,6 @@ class AdminController extends Controller
         return redirect()->route('admin.karyawan')->with('success', 'Profil karyawan berhasil dihapus!');
     }
 
-    //lihat profil karyawan 
     public function showKaryawan($id)
     {
         $this->authorizeAdminOnly();
@@ -341,7 +302,6 @@ class AdminController extends Controller
         return view('admin.profil_karyawan', compact('karyawan'));
     }
 
-    //untuk karyawan
     public function profilKaryawan()
     {
         if (!Auth::check()) {

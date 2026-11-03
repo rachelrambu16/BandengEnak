@@ -11,18 +11,15 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Pastikan hanya admin atau karyawan yang bisa akses
         if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'karyawan'])) {
             abort(403, "Anda tidak berhak mengakses halaman ini");
         }
 
-        // Ambil statistik sederhana
         $totalProducts = Product::count();
         $totalTransactions = Transaction::count();
         $totalRevenue = Transaction::where('status', 'selesai')->sum('total_amount');
         $pendingTransactions = Transaction::where('status', 'pending')->count();
         
-        // Transaksi terbaru
         $recentTransactions = Transaction::with(['user', 'details.product'])->orderBy('created_at', 'desc')->take(5)->get();
 
         return view('admin.dashboard', compact(
