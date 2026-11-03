@@ -33,11 +33,14 @@ class AuthController extends Controller
             "email" => $validatedData["email"],
             "password" => Hash::make($validatedData["password"]),
             "phone_number" => $validatedData["phone_number"],
-            "role" => "pelanggan"
+            "role" => "pelanggan",
+            "status_akun" => "aktif"
         ]);
 
         Auth::login($user);
-        return redirect("/katalog")->with("success", "Registrasi berhasil!");
+
+        return redirect("/katalog")
+            ->with("success", "Registrasi berhasil!");
     }
 
     public function ProcessLogin(Request $request)
@@ -71,18 +74,21 @@ class AuthController extends Controller
 
         return back()->withErrors([
             'email' => 'Akses Ditolak! Email atau password tidak cocok dengan sistem kami.'
-        ]);
+        ])->onlyInput('email');
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/login');
     }
 
-    public function profilPelanggan(){
+    public function profilPelanggan()
+    {
         $pelanggan = Auth::user();
         return view('auth.profilpelanggan', compact('pelanggan'));
     }
