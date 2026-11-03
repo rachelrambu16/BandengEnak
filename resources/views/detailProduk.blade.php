@@ -13,7 +13,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7 7-7-7 7-7"/>
             </svg>
-            kembali ke katalog
+            Kembali ke Katalog
         </a>
 
         
@@ -31,7 +31,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="mb-3 h-16 w-16 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
-                            <span class="text-sm font-medium">gambar tidak tersedia</span>
+                            <span class="text-sm font-medium">Gambar tidak tersedia</span>
                         </div>
                     @endif
                 </div>
@@ -48,22 +48,22 @@
                         
                         <div class="mb-6">
                             <span class="text-2xl font-extrabold text-orange-600 sm:text-3xl">
-                                rp {{ number_format($product->harga, 0, ',', '.') }}
+                                Rp {{ number_format($product->harga, 0, ',', '.') }}
                             </span>
                         </div>
 
                         
                         <div class="mb-6 flex items-center gap-2">
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">stok:</span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Stok:</span>
                             @if($product->stok > 0)
                                 <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 border border-emerald-200">
                                     <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                                    tersedia ({{ $product->stok }})
+                                    Tersedia ({{ $product->stok }})
                                 </span>
                             @else
                                 <span class="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700 border border-red-200">
                                     <span class="h-2 w-2 rounded-full bg-red-500"></span>
-                                    stok habis
+                                    Stok Habis
                                 </span>
                             @endif
                         </div>
@@ -71,10 +71,10 @@
                         
                         <div class="mb-8 border-t border-slate-100 pt-6">
                             <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">
-                                deskripsi produk
+                                Deskripsi Produk
                             </h2>
                             <p class="text-sm leading-relaxed text-slate-600 whitespace-pre-line">
-                                {{ $product->deskripsi ?: 'belum ada deskripsi produk.' }}
+                                {{ $product->deskripsi ?: 'Belum ada deskripsi produk.' }}
                             </p>
                         </div>
                     </div>
@@ -84,14 +84,14 @@
                         @auth
                             @if(auth()->user()->role === 'pelanggan')
                                 @if($product->stok > 0)
-                                    <form action="{{ route('keranjang.store', $product->id) }}" method="post">
+                                    <form action="{{ route('keranjang.store', $product->id) }}" method="POST">
                                         @csrf
 
                                         
                                         <div class="mb-5">
                                             <label for="jumlah"
                                                    class="mb-2 block text-sm font-semibold text-slate-700">
-                                                jumlah produk
+                                                Jumlah Produk
                                             </label>
 
                                             <div class="inline-flex items-center overflow-hidden rounded-xl border border-orange-200 bg-white">
@@ -128,20 +128,20 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h2v2c0 .55.45 1 1 1s1-.45 1-1V8h6v2c0 .55.45 1 1 1s1-.45 1-1V8h2v12z"/>
                                             </svg>
-                                            tambah ke keranjang
+                                            Tambah ke Keranjang
                                         </button>
                                     </form>
                                 @else
                                     <button type="button" disabled
                                             class="w-full cursor-not-allowed rounded-2xl bg-slate-200 px-8 py-4 text-sm font-bold text-slate-400">
-                                        stok habis
+                                        Stok Habis
                                     </button>
                                 @endif
                             @endif
                         @else
                             <a href="{{ route('login') }}"
                                class="inline-flex w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-all duration-200 hover:-translate-y-0.5 hover:from-orange-600 hover:to-orange-700">
-                                login untuk membeli
+                                Login untuk Membeli
                             </a>
                         @endauth
                     </div>

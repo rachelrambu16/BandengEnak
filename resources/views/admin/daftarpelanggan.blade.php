@@ -3,10 +3,10 @@
 @section('content')
 <div class="mb-6">
     <h1 class="text-3xl font-bold text-gray-900">
-        daftar pelanggan
+        Daftar Pelanggan
     </h1>
     <p class="mt-2 text-gray-500">
-        informasi pelanggan yang terdaftar di toko.
+        Informasi pelanggan yang terdaftar di toko.
     </p>
 </div>
 
@@ -32,14 +32,14 @@
     <table class="w-full text-left text-sm">
         <thead class="border-b border-orange-100 bg-orange-50">
             <tr>
-                <th class="p-3 border">no</th>
-                <th class="p-3 border">id pelanggan</th>
-                <th class="p-3 border">nama</th>
-                <th class="p-3 border">email</th>
-                <th class="p-3 border">nomor telepon</th>
-                <th class="p-3 border">tanggal daftar</th>
-                <th class="p-3 border">status akun</th>
-                <th class="p-3 border text-center">aksi</th>
+                <th class="p-3 border">No</th>
+                <th class="p-3 border">ID Pelanggan</th>
+                <th class="p-3 border">Nama</th>
+                <th class="p-3 border">Email</th>
+                <th class="p-3 border">Nomor Telepon</th>
+                <th class="p-3 border">Tanggal Daftar</th>
+                <th class="p-3 border">Status Akun</th>
+                <th class="p-3 border text-center">Aksi</th>
             </tr>
         </thead>
 
@@ -67,7 +67,7 @@
                     </td>
 
                     <td class="p-3 border">
-                        {{ $item->created_at?->format('d-m-y') ?? '-' }}
+                        {{ $item->created_at?->format('d-m-Y') ?? '-' }}
                     </td>
 
                     
@@ -76,13 +76,13 @@
                             <span class="inline-block rounded-full
                                          bg-green-100 px-3 py-1
                                          text-xs font-semibold text-green-700">
-                                aktif
+                                Aktif
                             </span>
                         @else
                             <span class="inline-block rounded-full
                                          bg-red-100 px-3 py-1
                                          text-xs font-semibold text-red-700">
-                                nonaktif
+                                Nonaktif
                             </span>
                       @endif
                     </td>
@@ -92,33 +92,33 @@
                         @if ($item->status_akun === 'aktif')
                             <form
                                 action="{{ route('admin.pelanggan.blokir', $item->id) }}"
-                                method="post"
-                                onsubmit="return confirm('apakah kamu yakin ingin memblokir akun pelanggan ini?')">
+                                method="POST"
+                                onsubmit="return confirm('Apakah kamu yakin ingin memblokir akun pelanggan ini?')">
                                 @csrf
-                                @method('patch')
+                                @method('PATCH')
 
                                 <button
                                     type="submit"
                                     class="rounded-lg bg-red-500 px-3 py-2
                                            text-xs font-semibold text-white
                                            hover:bg-red-600">
-                                    blokir
+                                    Blokir
                                 </button>
                             </form>
                         @else
                             <form
                                 action="{{ route('admin.pelanggan.aktifkan', $item->id) }}"
-                                method="post"
-                                onsubmit="return confirm('apakah kamu yakin ingin mengaktifkan kembali akun ini?')">
+                                method="POST"
+                                onsubmit="return confirm('Apakah kamu yakin ingin mengaktifkan kembali akun ini?')">
                                 @csrf
-                                @method('patch')
+                                @method('PATCH')
 
                                 <button
                                     type="submit"
                                     class="rounded-lg bg-green-600 px-3 py-2
                                            text-xs font-semibold text-white
                                            hover:bg-green-700">
-                                    aktifkan
+                                    Aktifkan
                                 </button>
                             </form>
                         @endif
@@ -128,7 +128,7 @@
                 <tr>
                     <td colspan="8"
                         class="px-6 py-8 text-center text-gray-500">
-                        belum ada pelanggan terdaftar.
+                        Belum ada pelanggan terdaftar.
                     </td>
                 </tr>
             @endforelse

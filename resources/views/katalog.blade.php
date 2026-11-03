@@ -20,15 +20,15 @@
                     <line x1="3" x2="21" y1="6" y2="6"/>
                     <path d="M16 10a4 4 0 0 1-8 0"/>
                 </svg>
-                katalog produk
+                Katalog Produk
             </span>
 
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight drop-shadow-lg">
-                pilih bandeng<br class="hidden sm:block"/> kesukaan kamu
+                Pilih Bandeng<br class="hidden sm:block"/> Kesukaan Kamu
             </h1>
 
             <p class="mt-5 text-lg text-orange-100/90 max-w-lg mx-auto">
-                semua varian presto kami ada di sini. tinggal pilih, masukkan keranjang, selesai.
+                Semua varian presto kami ada di sini. Tinggal pilih, masukkan keranjang, selesai.
             </p>
         </div>
 
@@ -61,7 +61,7 @@
             
             <div class="flex items-center justify-between mb-8">
                 <p class="text-sm text-gray-400 font-medium">
-                    menampilkan <span class="text-gray-700 font-bold">{{ $products->count() }}</span> produk
+                    Menampilkan <span class="text-gray-700 font-bold">{{ $products->count() }}</span> produk
                 </p>
             </div>
 
@@ -78,7 +78,7 @@
                             
                             <a href="{{ route('produk.detail', $product->id) }}"
                                class="block w-full h-full"
-                               aria-label="lihat detail {{ $product->nama_produk }}">
+                               aria-label="Lihat detail {{ $product->nama_produk }}">
 
                                 @if($product->gambar)
                                     <img src="{{ asset('storage/' . $product->gambar) }}"
@@ -92,7 +92,7 @@
                                             <circle cx="9" cy="9" r="2"/>
                                             <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
                                         </svg>
-                                        <span class="text-xs text-orange-300 font-medium">belum ada foto</span>
+                                        <span class="text-xs text-orange-300 font-medium">Belum ada foto</span>
                                     </div>
                                 @endif
 
@@ -105,15 +105,15 @@
                             <div class="absolute top-4 left-4">
                                 @if($product->stok > 10)
                                     <span class="bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-orange-100">
-                                        stok: {{ $product->stok }}
+                                        Stok: {{ $product->stok }}
                                     </span>
                                 @elseif($product->stok > 0)
                                     <span class="bg-amber-50/90 backdrop-blur-sm text-amber-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-amber-200">
-                                        sisa {{ $product->stok }}
+                                        Sisa {{ $product->stok }}
                                     </span>
                                 @else
                                     <span class="bg-red-50/90 backdrop-blur-sm text-red-600 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-red-200">
-                                        habis
+                                        Habis
                                     </span>
                                 @endif
                             </div>
@@ -132,16 +132,16 @@
                             </h3>
 
                             <p class="text-gray-400 text-sm mb-5 line-clamp-2 flex-grow leading-relaxed">
-                                {{ str::limit($product->deskripsi, 100) }}
+                                {{ Str::limit($product->deskripsi, 100) }}
                             </p>
 
                             <div class="flex items-end justify-between gap-4 pt-4 border-t border-orange-50">
 
                                 
                                 <div>
-                                    <p class="text-xs text-gray-400 font-medium">harga</p>
+                                    <p class="text-xs text-gray-400 font-medium">Harga</p>
                                     <span class="text-2xl font-extrabold text-orange-600 leading-tight">
-                                        rp {{ number_format($product->harga, 0, ',', '.') }}
+                                        Rp {{ number_format($product->harga, 0, ',', '.') }}
                                     </span>
                                 </div>
 
@@ -149,13 +149,13 @@
                                 @if($product->stok > 0)
                                     @auth
                                         @if(auth()->user()->role === 'pelanggan')
-                                            <form action="{{ route('keranjang.store', $product->id) }}" method="post">
+                                            <form action="{{ route('keranjang.store', $product->id) }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="jumlah" value="1">
                                             <button type="submit"
                                             class="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold px-5 py-3 rounded-xl"
-                                            @if($product->stok <= 0) disabled title="stok habis" @endif>
-                                            keranjang
+                                            @if($product->stok <= 0) disabled title="Stok habis" @endif>
+                                            Keranjang
                                         </button>
                                     </form>       
                                      @endif
@@ -167,15 +167,15 @@
                                                 <circle cx="19" cy="21" r="1"/>
                                                 <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
                                             </svg>
-                                            <span class="hidden sm:inline">keranjang</span>
+                                            <span class="hidden sm:inline">Keranjang</span>
                                         </a>
                                     @endauth
                                 @else
                                     <button type="button"
                                             disabled
-                                            title="stok habis"
+                                            title="Stok habis"
                                             class="flex items-center gap-2 bg-gray-300 text-white font-semibold px-5 py-3 rounded-xl cursor-not-allowed">
-                                        <span>stok habis</span>
+                                        <span>Stok Habis</span>
                                     </button>
                                 @endif
 
@@ -199,8 +199,8 @@
                     </svg>
                 </div>
 
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">belum ada produk</h3>
-                <p class="text-gray-400 text-lg max-w-sm">produk sedang disiapkan, cek lagi nanti ya.</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Belum Ada Produk</h3>
+                <p class="text-gray-400 text-lg max-w-sm">Produk sedang disiapkan, cek lagi nanti ya.</p>
 
                 @auth
                     @if(auth()->user()->role === 'admin')
@@ -210,7 +210,7 @@
                                 <path d="M12 5v14"/>
                                 <path d="M5 12h14"/>
                             </svg>
-                            tambah produk pertama
+                            Tambah Produk Pertama
                         </a>
                     @endif
                 @endauth
@@ -228,7 +228,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="m15 18-6-6 6-6"/>
                     </svg>
-                    kelola produk
+                    Kelola Produk
                 </a>
             </div>
         @endif

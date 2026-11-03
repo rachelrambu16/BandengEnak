@@ -35,7 +35,7 @@
                             {{ $pelanggan->name }}
                         </h1>
                         <p class="mt-1 text-sm font-medium text-slate-400">
-                            akun pelanggan samudera
+                            Akun Pelanggan Samudera
                         </p>
                     </div>
                 </div>
@@ -45,12 +45,12 @@
                       method="POST"
                       class="mt-8 space-y-6">
                     @csrf
-                    @method('put')
+                    @method('PUT')
 
                     
                     <div>
                         <label for="email" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            e-mail
+                            E-mail
                         </label>
 
                         <input type="email"
@@ -68,7 +68,7 @@
                     
                     <div>
                         <label for="name" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            nama lengkap
+                            Nama Lengkap
                         </label>
 
                         <input type="text"
@@ -86,7 +86,7 @@
                     
                     <div>
                         <label for="password" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            password
+                            Password
                         </label>
 
                         <input type="password"
@@ -94,11 +94,11 @@
                                name="password"
                                minlength="8"
                                autocomplete="new-password"
-                               placeholder="kosongkan jika tidak diubah"
+                               placeholder="Kosongkan jika tidak diubah"
                                class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm font-medium text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
 
                         <p class="mt-2 text-xs text-slate-400">
-                            * isi hanya jika ingin mengganti password baru.
+                            * Isi hanya jika ingin mengganti password baru.
                         </p>
 
                         @error('password')
@@ -109,7 +109,7 @@
                     
                     <div>
                         <label for="alamat" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            alamat
+                            Alamat
                         </label>
 
                         <textarea id="alamat"
@@ -125,7 +125,7 @@
                     
                     <div>
                         <label for="phone_number" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            nomor telepon
+                            Nomor Telepon
                         </label>
 
                         <input type="tel"
@@ -149,7 +149,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7 7-7-7 7-7"/>
                             </svg>
-                            kembali ke katalog
+                            Kembali ke Katalog
                         </a>
 
                         
@@ -158,7 +158,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4ZM12 19a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm3-10H5V5h10v4Z"/>
                             </svg>
-                            simpan perubahan
+                            Simpan Perubahan
                         </button>
 
                     </div>

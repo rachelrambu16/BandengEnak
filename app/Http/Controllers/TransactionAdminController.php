@@ -11,7 +11,7 @@ class TransactionAdminController extends Controller
     private function authorizeAdminOrKaryawan()
     {
         if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'karyawan'])) {
-            abort(403, "anda tidak berhak mengakses halaman ini");
+            abort(403, "Anda tidak berhak mengakses halaman ini");
         }
     }
 
@@ -34,6 +34,6 @@ class TransactionAdminController extends Controller
         $transaction = Transaction::findOrFail($id);
         $transaction->update(['status' => $request->status]);
 
-        return redirect()->route('admin.transactions.index')->with('success', 'status pesanan berhasil diperbarui.');
+        return redirect()->route('admin.transactions.index')->with('success', 'Status pesanan berhasil diperbarui.');
     }
 }
