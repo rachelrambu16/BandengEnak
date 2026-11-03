@@ -29,7 +29,7 @@ class CartController extends Controller
         if ($product->stok < $jumlah) {
             return back()
                 ->withErrors([
-                    'jumlah' => 'Jumlah yang dipilih melebihi stok tersedia.',
+                    'jumlah' => 'jumlah yang dipilih melebihi stok tersedia.',
                 ])
                 ->withInput();
         }
@@ -45,7 +45,7 @@ class CartController extends Controller
         if ($jumlahBaru > $product->stok) {
             return back()
                 ->withErrors([
-                    'jumlah' => 'Total produk di keranjang melebihi stok tersedia.',
+                    'jumlah' => 'total produk di keranjang melebihi stok tersedia.',
                 ])
                 ->withInput();
         }
@@ -63,7 +63,7 @@ class CartController extends Controller
 
         return redirect()
             ->route('keranjang')
-            ->with('success', 'Produk berhasil ditambahkan ke keranjang.');
+            ->with('success', 'produk berhasil ditambahkan ke keranjang.');
     }
 
     public function update(Request $request, $cartId)
@@ -80,7 +80,7 @@ class CartController extends Controller
                 return redirect()
                     ->route('keranjang')
                     ->withErrors([
-                        'stok' => 'Maksimal stok tercapai untuk '
+                        'stok' => 'maksimal stok tercapai untuk '
                             . $cart->product->nama_produk,
                     ]);
             }
@@ -93,7 +93,7 @@ class CartController extends Controller
 
                 return redirect()
                     ->route('keranjang')
-                    ->with('success', 'Produk dihapus dari keranjang.');
+                    ->with('success', 'produk dihapus dari keranjang.');
             }
         }
 
@@ -110,6 +110,6 @@ class CartController extends Controller
 
         return redirect()
             ->route('keranjang')
-            ->with('success', 'Produk dihapus dari keranjang.');
+            ->with('success', 'produk dihapus dari keranjang.');
     }
 }

@@ -6,8 +6,8 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
     </a>
     <div>
-        <h1 class="text-2xl font-bold text-gray-900">Tambah Produk Baru</h1>
-        <p class="text-gray-500 text-sm mt-1">Masukkan informasi detail produk ke dalam katalog.</p>
+        <h1 class="text-2xl font-bold text-gray-900">tambah produk baru</h1>
+        <p class="text-gray-500 text-sm mt-1">masukkan informasi detail produk ke dalam katalog.</p>
     </div>
 </div>
 
@@ -27,34 +27,34 @@
         @csrf
         
         <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Produk</label>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">nama produk</label>
             <input type="text" name="nama_produk" required value="{{ old('nama_produk') }}" class="w-full px-4 py-2.5 bg-orange-50/30 border border-orange-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors">
         </div>
         
         <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Produk</label>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">deskripsi produk</label>
             <textarea name="deskripsi" required rows="4" class="w-full px-4 py-2.5 bg-orange-50/30 border border-orange-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors">{{ old('deskripsi') }}</textarea>
         </div>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Harga (Rp)</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">harga (rp)</label>
                 <input type="text" name="harga" id="harga" required value="{{ old('harga') }}" class="w-full px-4 py-2.5 bg-orange-50/30 border border-orange-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors" oninput="formatRupiah(this)">
             </div>
             <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Stok Awal</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">stok awal</label>
                 <input type="number" name="stok" required min="0" value="{{ old('stok', 0) }}" class="w-full px-4 py-2.5 bg-orange-50/30 border border-orange-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors">
             </div>
         </div>
         
         <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Gambar Produk</label>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">gambar produk</label>
             <input type="file" name="gambar" accept="image/png,image/jpeg,image/jpg" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 cursor-pointer border border-orange-200 rounded-xl">
         </div>
 
         <div class="pt-6 border-t border-orange-100 flex justify-end gap-3">
-            <a href="{{ route('admin.kelola_produk') }}" class="px-6 py-2.5 rounded-xl border border-orange-200 text-gray-700 font-medium hover:bg-orange-50 transition-colors">Batal</a>
-            <button type="submit" class="px-6 py-2.5 rounded-xl bg-orange-500 text-white font-medium hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-colors">Simpan Produk</button>
+            <a href="{{ route('admin.kelola_produk') }}" class="px-6 py-2.5 rounded-xl border border-orange-200 text-gray-700 font-medium hover:bg-orange-50 transition-colors">batal</a>
+            <button type="submit" class="px-6 py-2.5 rounded-xl bg-orange-500 text-white font-medium hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-colors">simpan produk</button>
         </div>
     </form>
 </div>

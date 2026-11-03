@@ -13,11 +13,11 @@ class AdminController extends Controller
     private function authorizeProductManagement()
     {
         if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'karyawan'])) {
-            abort(403, "Anda tidak berhak mengakses kelola produk");
+            abort(403, "anda tidak berhak mengakses kelola produk");
         }
     }
 
-    private function authorizeAdminOnly($message = "Anda bukan admin")
+    private function authorizeAdminOnly($message = "anda bukan admin")
     {
         if (!Auth::check() || Auth::user()->role !== 'admin') {
             abort(403, $message);
@@ -58,7 +58,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorizeAdminOnly("Anda tidak berhak menambahkan barang");
+        $this->authorizeAdminOnly("anda tidak berhak menambahkan barang");
 
         if ($request->has('harga')) {
             $request->merge([
@@ -85,7 +85,7 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.kelola_produk')
-            ->with('success', 'Produk berhasil ditambahkan!');
+            ->with('success', 'produk berhasil ditambahkan!');
     }
 
     /**
@@ -143,7 +143,7 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.kelola_produk')
-            ->with('success', 'Produk berhasil diupdate!');
+            ->with('success', 'produk berhasil diupdate!');
     }
 
     /**
@@ -163,7 +163,7 @@ class AdminController extends Controller
         $product->delete();
 
         return redirect()->route('admin.kelola_produk')
-            ->with('success', 'Produk berhasil dihapus!');
+            ->with('success', 'produk berhasil dihapus!');
     }
 
     /**
@@ -195,7 +195,7 @@ class AdminController extends Controller
 
         return redirect()
          ->route('admin.daftarpelanggan')
-         ->with('success', 'Akun pelanggan berhasil diblokir!');
+         ->with('success', 'akun pelanggan berhasil diblokir!');
     }
 
     /**
@@ -213,7 +213,7 @@ class AdminController extends Controller
 
      return redirect()
             ->route('admin.daftarpelanggan')
-            ->with('success', 'Akun pelanggan berhasil diaktifkan kembali!');
+            ->with('success', 'akun pelanggan berhasil diaktifkan kembali!');
     }
 
 
@@ -235,18 +235,18 @@ class AdminController extends Controller
     public function editKaryawan($id)
     {
         if (!Auth::check()) {
-            abort(403, 'Silakan login terlebih dahulu.');
+            abort(403, 'silakan login terlebih dahulu.');
         }
 
         if (Auth::user()->role === 'admin') {
             $karyawan = User::where('role', 'karyawan')->findOrFail($id);
         } elseif (Auth::user()->role === 'karyawan') {
             if (Auth::id() != $id) {
-                abort(403, 'Anda hanya dapat mengedit profil sendiri.');
+                abort(403, 'anda hanya dapat mengedit profil sendiri.');
             }
             $karyawan = User::where('role', 'karyawan')->findOrFail($id);
         } else {
-            abort(403, 'Anda tidak berhak mengakses halaman ini.');
+            abort(403, 'anda tidak berhak mengakses halaman ini.');
         }
 
         return view('admin.edit_karyawan', compact('karyawan'));
@@ -256,18 +256,18 @@ class AdminController extends Controller
     public function updateKaryawan(Request $request, $id)
     {
         if (!Auth::check()) {
-            abort(403, 'Silakan login terlebih dahulu.');
+            abort(403, 'silakan login terlebih dahulu.');
         }
 
         if (Auth::user()->role === 'admin') {
             $karyawan = User::where('role', 'karyawan')->findOrFail($id);
         } elseif (Auth::user()->role === 'karyawan') {
             if (Auth::id() != $id) {
-                abort(403, 'Anda hanya dapat mengedit profil sendiri.');
+                abort(403, 'anda hanya dapat mengedit profil sendiri.');
             }
             $karyawan = User::where('role', 'karyawan')->findOrFail($id);
         } else {
-            abort(403, 'Anda tidak berhak mengubah profil ini.');
+            abort(403, 'anda tidak berhak mengubah profil ini.');
         }
 
         $request->validate([
@@ -285,10 +285,10 @@ class AdminController extends Controller
         ]);
 
         if (Auth::user()->role === 'admin') {
-            return redirect()->route('admin.karyawan')->with('success', 'Profil karyawan berhasil diperbarui!');
+            return redirect()->route('admin.karyawan')->with('success', 'profil karyawan berhasil diperbarui!');
         }
         
-        return redirect()->route('karyawan.profil')->with('success', 'Profil Anda berhasil diperbarui!');
+        return redirect()->route('karyawan.profil')->with('success', 'profil anda berhasil diperbarui!');
     }
 
     //tambah akun karyawan
@@ -319,7 +319,7 @@ class AdminController extends Controller
             'role' => 'karyawan',
         ]);
 
-        return redirect()->route('admin.karyawan')->with('success', 'Karyawan berhasil ditambahkan!');
+        return redirect()->route('admin.karyawan')->with('success', 'karyawan berhasil ditambahkan!');
     }
 
     //hapus akun karyawan
@@ -329,7 +329,7 @@ class AdminController extends Controller
         $karyawan = User::where('role', 'karyawan')->findOrFail($id);
         $karyawan->delete();
         
-        return redirect()->route('admin.karyawan')->with('success', 'Profil karyawan berhasil dihapus!');
+        return redirect()->route('admin.karyawan')->with('success', 'profil karyawan berhasil dihapus!');
     }
 
     //lihat profil karyawan 
@@ -345,7 +345,7 @@ class AdminController extends Controller
     public function profilKaryawan()
     {
         if (!Auth::check()) {
-            abort(403, 'Silakan login terlebih dahulu.');
+            abort(403, 'silakan login terlebih dahulu.');
         }
 
         if (Auth::user()->role === 'karyawan') {
@@ -353,7 +353,7 @@ class AdminController extends Controller
         } elseif (Auth::user()->role === 'admin') {
             return redirect()->route('admin.karyawan');
         } else {
-            abort(403, 'Anda tidak berhak mengakses halaman ini.');
+            abort(403, 'anda tidak berhak mengakses halaman ini.');
         }
 
         return view('admin.profil_karyawan', compact('karyawan'));

@@ -6,7 +6,7 @@
 
     <div class="mx-auto max-w-3xl">
 
-        {{-- Notifikasi Berhasil --}}
+        
         @if (session('success'))
             <div class="mb-6 flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-medium text-emerald-800 shadow-sm transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-emerald-600" viewBox="0 0 24 24" fill="currentColor">
@@ -16,12 +16,12 @@
             </div>
         @endif
 
-        {{-- Kartu Profil Utama --}}
+        
         <div class="overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-xl shadow-orange-500/5">
 
             <div class="p-8 sm:p-10 lg:p-12">
 
-                {{-- Header Identitas Pelanggan --}}
+                
                 <div class="flex items-center gap-5 border-b border-orange-100/80 pb-8">
 
                     <div class="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-orange-100 text-orange-600 shadow-inner">
@@ -35,22 +35,22 @@
                             {{ $pelanggan->name }}
                         </h1>
                         <p class="mt-1 text-sm font-medium text-slate-400">
-                            Akun Pelanggan Samudera
+                            akun pelanggan samudera
                         </p>
                     </div>
                 </div>
 
-                {{-- Form Profil --}}
+                
                 <form action="{{ route('pelanggan.profil.update') }}"
                       method="POST"
                       class="mt-8 space-y-6">
                     @csrf
-                    @method('PUT')
+                    @method('put')
 
-                    {{-- E-mail --}}
+                    
                     <div>
                         <label for="email" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            E-mail
+                            e-mail
                         </label>
 
                         <input type="email"
@@ -65,10 +65,10 @@
                         @enderror
                     </div>
 
-                    {{-- Nama Lengkap --}}
+                    
                     <div>
                         <label for="name" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            Nama Lengkap
+                            nama lengkap
                         </label>
 
                         <input type="text"
@@ -83,10 +83,10 @@
                         @enderror
                     </div>
 
-                    {{-- Password --}}
+                    
                     <div>
                         <label for="password" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            Password
+                            password
                         </label>
 
                         <input type="password"
@@ -94,11 +94,11 @@
                                name="password"
                                minlength="8"
                                autocomplete="new-password"
-                               placeholder="Kosongkan jika tidak diubah"
+                               placeholder="kosongkan jika tidak diubah"
                                class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm font-medium text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100">
 
                         <p class="mt-2 text-xs text-slate-400">
-                            * Isi hanya jika ingin mengganti password baru.
+                            * isi hanya jika ingin mengganti password baru.
                         </p>
 
                         @error('password')
@@ -106,10 +106,10 @@
                         @enderror
                     </div>
 
-                    {{-- Alamat --}}
+                    
                     <div>
                         <label for="alamat" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            Alamat
+                            alamat
                         </label>
 
                         <textarea id="alamat"
@@ -122,10 +122,10 @@
                         @enderror
                     </div>
 
-                    {{-- Nomor Telepon --}}
+                    
                     <div>
                         <label for="phone_number" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                            Nomor Telepon
+                            nomor telepon
                         </label>
 
                         <input type="tel"
@@ -140,25 +140,25 @@
                         @enderror
                     </div>
 
-                    {{-- Tombol Navigasi Bawah (Kembali & Simpan) --}}
+                    
                     <div class="mt-10 flex flex-col-reverse items-center justify-between gap-4 border-t border-orange-100/80 pt-8 sm:flex-row">
 
-                        {{-- Tombol Kembali --}}
+                        
                         <a href="{{ route('katalog') }}"
                            class="group inline-flex items-center gap-2.5 text-sm font-semibold text-slate-500 transition-colors hover:text-orange-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7 7-7-7 7-7"/>
                             </svg>
-                            Kembali ke Katalog
+                            kembali ke katalog
                         </a>
 
-                        {{-- Tombol Simpan Perubahan --}}
+                        
                         <button type="submit"
                                 class="inline-flex w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-all duration-200 hover:-translate-y-0.5 hover:from-orange-600 hover:to-orange-700 hover:shadow-xl hover:shadow-orange-500/35 sm:w-auto">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4ZM12 19a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm3-10H5V5h10v4Z"/>
                             </svg>
-                            Simpan Perubahan
+                            simpan perubahan
                         </button>
 
                     </div>

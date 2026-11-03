@@ -3,9 +3,9 @@
 @section('content')
 <div class="max-w-3xl mx-auto">
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Profil Karyawan</h1>
+        <h1 class="text-2xl font-bold text-gray-900">profil karyawan</h1>
         <p class="text-sm text-gray-500 mt-1">
-            Informasi lengkap akun karyawan.
+            informasi lengkap akun karyawan.
         </p>
     </div>
 
@@ -26,44 +26,44 @@
                 <h2 class="text-xl font-bold text-gray-900">
                     {{ $karyawan->name }}
                 </h2>
-                <p class="text-sm text-gray-500">Karyawan</p>
+                <p class="text-sm text-gray-500">karyawan</p>
             </div>
         </div>
 
         <div class="space-y-5">
             <div>
-                <p class="text-sm text-gray-500 mb-1">ID Karyawan</p>
+                <p class="text-sm text-gray-500 mb-1">id karyawan</p>
                 <p class="font-medium text-gray-900">{{ $karyawan->id }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500 mb-1">Nama Lengkap</p>
+                <p class="text-sm text-gray-500 mb-1">nama lengkap</p>
                 <p class="font-medium text-gray-900">{{ $karyawan->name }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500 mb-1">Email</p>
+                <p class="text-sm text-gray-500 mb-1">email</p>
                 <p class="font-medium text-gray-900">{{ $karyawan->email }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500 mb-1">Nomor Telepon</p>
+                <p class="text-sm text-gray-500 mb-1">nomor telepon</p>
                 <p class="font-medium text-gray-900">
                     {{ $karyawan->phone_number ?? '-' }}
                 </p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500 mb-1">Alamat</p>
+                <p class="text-sm text-gray-500 mb-1">alamat</p>
                 <p class="font-medium text-gray-900">
                     {{ $karyawan->alamat ?? '-' }}
                 </p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500 mb-1">Tanggal Daftar</p>
+                <p class="text-sm text-gray-500 mb-1">tanggal daftar</p>
                 <p class="font-medium text-gray-900">
-                    {{ $karyawan->created_at?->format('d-m-Y') ?? '-' }}
+                    {{ $karyawan->created_at?->format('d-m-y') ?? '-' }}
                 </p>
             </div>
         </div>
@@ -72,13 +72,13 @@
             @if(auth()->user()->role === 'admin')
             <a href="{{ route('admin.karyawan') }}"
             class="px-4 py-2 bg-white border border-orange-200 text-gray-700 rounded-xl text-sm font-medium hover:bg-orange-50 transition-colors">
-            Kembali
+            kembali
         </a>
         @endif
 
             <a href="{{ route('admin.karyawan.edit', $karyawan->id) }}"
                class="px-4 py-2 bg-orange-500 text-white rounded-xl text-sm font-medium hover:bg-orange-600 transition-colors">
-                Edit Profil
+                edit profil
             </a>
         </div>
     </div>

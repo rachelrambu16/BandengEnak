@@ -20,19 +20,19 @@
                     <line x1="3" x2="21" y1="6" y2="6"/>
                     <path d="M16 10a4 4 0 0 1-8 0"/>
                 </svg>
-                Katalog Produk
+                katalog produk
             </span>
 
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight drop-shadow-lg">
-                Pilih Bandeng<br class="hidden sm:block"/> Kesukaan Kamu
+                pilih bandeng<br class="hidden sm:block"/> kesukaan kamu
             </h1>
 
             <p class="mt-5 text-lg text-orange-100/90 max-w-lg mx-auto">
-                Semua varian presto kami ada di sini. Tinggal pilih, masukkan keranjang, selesai.
+                semua varian presto kami ada di sini. tinggal pilih, masukkan keranjang, selesai.
             </p>
         </div>
 
-        {{-- Wave divider --}}
+        
         <div class="absolute bottom-0 left-0 right-0">
             <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full" preserveAspectRatio="none">
                 <path d="M0 80V30C240 70 480 0 720 30C960 60 1200 10 1440 40V80H0Z" fill="white" fill-opacity="0.07"/>
@@ -42,7 +42,7 @@
         </div>
     </section>
 
-    {{-- Main Content --}}
+    
     <div class="container mx-auto px-5 -mt-8 sm:-mt-12 relative z-10 pb-16">
 
         @if (session('success'))
@@ -58,27 +58,27 @@
 
         @if($products->count() > 0)
 
-            {{-- Product count --}}
+            
             <div class="flex items-center justify-between mb-8">
                 <p class="text-sm text-gray-400 font-medium">
-                    Menampilkan <span class="text-gray-700 font-bold">{{ $products->count() }}</span> produk
+                    menampilkan <span class="text-gray-700 font-bold">{{ $products->count() }}</span> produk
                 </p>
             </div>
 
-            {{-- Product grid --}}
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
 
                 @foreach($products as $product)
 
                     <div class="group bg-white rounded-3xl border border-orange-100/80 overflow-hidden hover:shadow-2xl hover:shadow-orange-500/8 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full katalog-card">
 
-                        {{-- Image --}}
+                        
                         <div class="relative h-56 overflow-hidden bg-gradient-to-br from-orange-50 to-amber-50">
 
-                            {{-- Foto dapat diklik menuju detail produk --}}
+                            
                             <a href="{{ route('produk.detail', $product->id) }}"
                                class="block w-full h-full"
-                               aria-label="Lihat detail {{ $product->nama_produk }}">
+                               aria-label="lihat detail {{ $product->nama_produk }}">
 
                                 @if($product->gambar)
                                     <img src="{{ asset('storage/' . $product->gambar) }}"
@@ -92,38 +92,38 @@
                                             <circle cx="9" cy="9" r="2"/>
                                             <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
                                         </svg>
-                                        <span class="text-xs text-orange-300 font-medium">Belum ada foto</span>
+                                        <span class="text-xs text-orange-300 font-medium">belum ada foto</span>
                                     </div>
                                 @endif
 
                             </a>
 
-                            {{-- Image gradient overlay --}}
+                            
                             <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
 
-                            {{-- Stock badge --}}
+                            
                             <div class="absolute top-4 left-4">
                                 @if($product->stok > 10)
                                     <span class="bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-orange-100">
-                                        Stok: {{ $product->stok }}
+                                        stok: {{ $product->stok }}
                                     </span>
                                 @elseif($product->stok > 0)
                                     <span class="bg-amber-50/90 backdrop-blur-sm text-amber-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-amber-200">
-                                        Sisa {{ $product->stok }}
+                                        sisa {{ $product->stok }}
                                     </span>
                                 @else
                                     <span class="bg-red-50/90 backdrop-blur-sm text-red-600 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-red-200">
-                                        Habis
+                                        habis
                                     </span>
                                 @endif
                             </div>
 
                         </div>
 
-                        {{-- Content --}}
+                        
                         <div class="p-6 flex flex-col flex-grow">
 
-                            {{-- Nama produk dapat diklik menuju detail produk --}}
+                            
                             <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-1">
                                 <a href="{{ route('produk.detail', $product->id) }}"
                                    class="hover:text-orange-600 transition-colors">
@@ -132,30 +132,30 @@
                             </h3>
 
                             <p class="text-gray-400 text-sm mb-5 line-clamp-2 flex-grow leading-relaxed">
-                                {{ Str::limit($product->deskripsi, 100) }}
+                                {{ str::limit($product->deskripsi, 100) }}
                             </p>
 
                             <div class="flex items-end justify-between gap-4 pt-4 border-t border-orange-50">
 
-                                {{-- Harga --}}
+                                
                                 <div>
-                                    <p class="text-xs text-gray-400 font-medium">Harga</p>
+                                    <p class="text-xs text-gray-400 font-medium">harga</p>
                                     <span class="text-2xl font-extrabold text-orange-600 leading-tight">
-                                        Rp {{ number_format($product->harga, 0, ',', '.') }}
+                                        rp {{ number_format($product->harga, 0, ',', '.') }}
                                     </span>
                                 </div>
 
-                                {{-- Tombol keranjang --}}
+                                
                                 @if($product->stok > 0)
                                     @auth
                                         @if(auth()->user()->role === 'pelanggan')
-                                            <form action="{{ route('keranjang.store', $product->id) }}" method="POST">
+                                            <form action="{{ route('keranjang.store', $product->id) }}" method="post">
                                             @csrf
                                             <input type="hidden" name="jumlah" value="1">
                                             <button type="submit"
                                             class="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold px-5 py-3 rounded-xl"
-                                            @if($product->stok <= 0) disabled title="Stok habis" @endif>
-                                            Keranjang
+                                            @if($product->stok <= 0) disabled title="stok habis" @endif>
+                                            keranjang
                                         </button>
                                     </form>       
                                      @endif
@@ -167,15 +167,15 @@
                                                 <circle cx="19" cy="21" r="1"/>
                                                 <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
                                             </svg>
-                                            <span class="hidden sm:inline">Keranjang</span>
+                                            <span class="hidden sm:inline">keranjang</span>
                                         </a>
                                     @endauth
                                 @else
                                     <button type="button"
                                             disabled
-                                            title="Stok habis"
+                                            title="stok habis"
                                             class="flex items-center gap-2 bg-gray-300 text-white font-semibold px-5 py-3 rounded-xl cursor-not-allowed">
-                                        <span>Stok Habis</span>
+                                        <span>stok habis</span>
                                     </button>
                                 @endif
 
@@ -189,7 +189,7 @@
 
         @else
 
-            {{-- Empty state --}}
+            
             <div class="flex flex-col items-center justify-center py-24 text-center">
                 <div class="w-24 h-24 rounded-full bg-orange-50 flex items-center justify-center mb-8">
                     <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-orange-300">
@@ -199,8 +199,8 @@
                     </svg>
                 </div>
 
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">Belum Ada Produk</h3>
-                <p class="text-gray-400 text-lg max-w-sm">Produk sedang disiapkan, cek lagi nanti ya.</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">belum ada produk</h3>
+                <p class="text-gray-400 text-lg max-w-sm">produk sedang disiapkan, cek lagi nanti ya.</p>
 
                 @auth
                     @if(auth()->user()->role === 'admin')
@@ -210,7 +210,7 @@
                                 <path d="M12 5v14"/>
                                 <path d="M5 12h14"/>
                             </svg>
-                            Tambah Produk Pertama
+                            tambah produk pertama
                         </a>
                     @endif
                 @endauth
@@ -219,7 +219,7 @@
         @endif
     </div>
 
-    {{-- Admin/Karyawan back button --}}
+    
     @auth
         @if(auth()->user()->role === 'admin' || auth()->user()->role === 'karyawan')
             <div class="flex justify-center pb-12">
@@ -228,7 +228,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="m15 18-6-6 6-6"/>
                     </svg>
-                    Kelola Produk
+                    kelola produk
                 </a>
             </div>
         @endif
@@ -236,7 +236,7 @@
 
 </div>
 
-{{-- Card entrance animation --}}
+
 <style>
     .katalog-card {
         opacity: 0;

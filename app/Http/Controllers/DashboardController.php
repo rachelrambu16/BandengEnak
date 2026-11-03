@@ -13,7 +13,7 @@ class DashboardController extends Controller
     {
         // Pastikan hanya admin atau karyawan yang bisa akses
         if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'karyawan'])) {
-            abort(403, "Anda tidak berhak mengakses halaman ini");
+            abort(403, "anda tidak berhak mengakses halaman ini");
         }
 
         // Ambil statistik sederhana
@@ -37,7 +37,7 @@ class DashboardController extends Controller
     public function salesReport(Request $request)
     {
         if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'karyawan'])) {
-            abort(403, "Anda tidak berhak mengakses halaman ini");
+            abort(403, "anda tidak berhak mengakses halaman ini");
         }
 
         $query = Transaction::with(['user', 'details.product'])

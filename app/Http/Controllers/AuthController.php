@@ -43,7 +43,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         return redirect("/katalog")
-            ->with("success", "Registrasi berhasil!");
+            ->with("success", "registrasi berhasil!");
     }
 
     /**
@@ -68,7 +68,7 @@ class AuthController extends Controller
         ) {
             return back()
                 ->withErrors([
-                    'email' => 'Akun Anda sedang diblokir. Silakan hubungi admin.'
+                    'email' => 'akun anda sedang diblokir. silakan hubungi admin.'
                 ])
                 ->onlyInput('email');
         }
@@ -91,7 +91,7 @@ class AuthController extends Controller
 
         // Kembali ke halaman login jika kredensial salah
         return back()->withErrors([
-            'email' => 'Akses Ditolak! Email atau password tidak cocok dengan sistem kami.'
+            'email' => 'akses ditolak! email atau password tidak cocok dengan sistem kami.'
         ])->onlyInput('email');
     }
 
@@ -141,6 +141,6 @@ class AuthController extends Controller
 
         return redirect()
             ->route('pelanggan.profil')
-            ->with('success', 'Profil berhasil diperbarui!');
+            ->with('success', 'profil berhasil diperbarui!');
     }
 }

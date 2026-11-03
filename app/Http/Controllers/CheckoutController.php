@@ -54,7 +54,7 @@ class CheckoutController extends Controller
                 $product = $cart->product;
                 if ($product->stok < $cart->quantity) {
                      throw new \Exception(
-                        "Stok {$product->nama_produk} tidak mencukupi"
+                        "stok {$product->nama_produk} tidak mencukupi"
                         );
                     }
                         TransactionDetail::create([

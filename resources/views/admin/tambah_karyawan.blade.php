@@ -12,9 +12,9 @@
     </a>
 
     <div>
-        <h1 class="text-2xl font-bold text-gray-900">Tambah Karyawan</h1>
+        <h1 class="text-2xl font-bold text-gray-900">tambah karyawan</h1>
         <p class="text-gray-500 text-sm mt-1">
-            Masukkan informasi akun karyawan baru.
+            masukkan informasi akun karyawan baru.
         </p>
     </div>
 </div>
@@ -37,7 +37,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Nama Karyawan
+                nama karyawan
             </label>
             <input type="text" name="name" required
                    value="{{ old('name') }}"
@@ -46,7 +46,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Email
+                email
             </label>
             <input type="email" name="email" required
                    value="{{ old('email') }}"
@@ -55,7 +55,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Nomor Telepon
+                nomor telepon
             </label>
             <input type="text" name="phone_number" maxlength="15"
                    value="{{ old('phone_number') }}"
@@ -64,7 +64,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Alamat
+                alamat
             </label>
             <textarea name="alamat" rows="3"
                       class="w-full px-4 py-2.5 bg-orange-50/30 border border-orange-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors">{{ old('alamat') }}</textarea>
@@ -72,25 +72,25 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Password
+                password
             </label>
             <input type="password" name="password" required
                    minlength="8"
                    class="w-full px-4 py-2.5 bg-orange-50/30 border border-orange-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors">
             <p class="text-xs text-gray-500 mt-1">
-                Password minimal 8 karakter.
+                password minimal 8 karakter.
             </p>
         </div>
 
         <div class="pt-6 border-t border-orange-100 flex justify-end gap-3">
             <a href="{{ route('admin.karyawan') }}"
                class="px-6 py-2.5 rounded-xl border border-orange-200 text-gray-700 font-medium hover:bg-orange-50 transition-colors">
-                Batal
+                batal
             </a>
 
             <button type="submit"
                     class="px-6 py-2.5 rounded-xl bg-orange-500 text-white font-medium hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-colors">
-                Simpan Karyawan
+                simpan karyawan
             </button>
         </div>
     </form>

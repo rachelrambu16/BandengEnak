@@ -12,9 +12,9 @@
     </a>
 
     <div>
-        <h1 class="text-2xl font-bold text-gray-900">Edit Profil Karyawan</h1>
+        <h1 class="text-2xl font-bold text-gray-900">edit profil karyawan</h1>
         <p class="text-gray-500 text-sm mt-1">
-            Ubah informasi profil: {{ $karyawan->name }}
+            ubah informasi profil: {{ $karyawan->name }}
         </p>
     </div>
 </div>
@@ -32,13 +32,13 @@
     @endif
 
     <form action="{{ route('admin.karyawan.update', $karyawan->id) }}"
-          method="POST" class="space-y-6">
+          method="post" class="space-y-6">
         @csrf
-        @method('PUT')
+        @method('put')
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Nama Karyawan
+                nama karyawan
             </label>
             <input type="text" name="name" required
                    value="{{ old('name', $karyawan->name) }}"
@@ -47,7 +47,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Email
+                email
             </label>
             <input type="email" name="email" required
                    value="{{ old('email', $karyawan->email) }}"
@@ -56,7 +56,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Nomor Telepon
+                nomor telepon
             </label>
             <input type="text" name="phone_number" maxlength="15"
                    value="{{ old('phone_number', $karyawan->phone_number) }}"
@@ -65,7 +65,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Alamat
+                alamat
             </label>
             <textarea name="alamat" rows="3"
                       class="w-full px-4 py-2.5 bg-orange-50/30 border border-orange-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors">{{ old('alamat', $karyawan->alamat) }}</textarea>
@@ -74,12 +74,12 @@
         <div class="pt-6 border-t border-orange-100 flex justify-end gap-3">
             <a href="{{ auth()->user()->role === 'admin' ? route('admin.karyawan') : route('karyawan.profil') }}"
                class="px-6 py-2.5 rounded-xl border border-orange-200 text-gray-700 font-medium hover:bg-orange-50 transition-colors">
-                Batal
+                batal
             </a>
 
             <button type="submit"
                     class="px-6 py-2.5 rounded-xl bg-orange-500 text-white font-medium hover:bg-orange-600 shadow-md shadow-orange-500/20 transition-colors">
-                Update Profil
+                update profil
             </button>
         </div>
     </form>
