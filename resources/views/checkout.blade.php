@@ -12,7 +12,7 @@
 
     <div class="flex flex-col lg:flex-row gap-8">
         <div class="flex-1 space-y-8">
-            <form id="checkout-form" action="{{ route('checkout.process') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+            <form id="checkout-form" action="{{ route('checkout.process') }}" method="POST" class="space-y-8">
                 @csrf
                 
                 
@@ -47,17 +47,10 @@
                         <h2 class="text-xl font-bold text-gray-900">Pembayaran</h2>
                     </div>
 
-                    <div class="bg-orange-50 p-4 rounded-xl border border-orange-200 mb-6">
-                        <p class="text-sm text-gray-600 mb-2">Silakan transfer sesuai total tagihan ke rekening berikut:</p>
-                        <p class="font-bold text-gray-900 text-lg">BCA 1234567890</p>
-                        <p class="text-sm text-gray-600">a.n. PT Bandeng Presto Samudera</p>
+                    <div class="bg-orange-50 p-4 rounded-xl border border-orange-200">
+                        <p class="text-sm text-gray-600">Setelah pesanan dibuat, Anda akan diarahkan ke payment gateway Midtrans untuk memilih virtual account bank dan menyelesaikan pembayaran.</p>
                     </div>
-
-                    <div class="space-y-4">
-                        <label class="text-sm font-semibold text-gray-700">Unggah Bukti Transfer</label>
-                        <input type="file" name="payment_proof" accept="image/*" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
-                        @error('payment_proof') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                    </div>
+                    @error('payment') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </section>
             </form>
         </div>

@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\Cart;
 use App\Models\Product;
 
 class CartController extends Controller
 {
+    private const CART_EXPIRY_DAYS = 30;
+
     public function index()
     {
+        $this->removeExpiredCarts();
         $carts = Cart::with('product')
             ->where('user_id', auth()->id())
             ->get();
@@ -19,6 +23,7 @@ class CartController extends Controller
 
     public function store(Request $request, $productId)
     {
+        $this->removeExpiredCarts();
         $request->validate([
             'jumlah' => 'required|integer|min:1',
         ]);
@@ -52,12 +57,14 @@ class CartController extends Controller
 
         if ($cart) {
             $cart->quantity = $jumlahBaru;
+            $cart->expires_at = now()->addDays(self::CART_EXPIRY_DAYS);
             $cart->save();
         } else {
             Cart::create([
                 'user_id' => auth()->id(),
                 'product_id' => $productId,
                 'quantity' => $jumlah,
+                'expires_at' => now()->addDays(self::CART_EXPIRY_DAYS),
             ]);
         }
 
@@ -68,6 +75,7 @@ class CartController extends Controller
 
     public function update(Request $request, $cartId)
     {
+        $this->removeExpiredCarts();
         $cart = Cart::where('user_id', auth()->id())
             ->where('id', $cartId)
             ->firstOrFail();
@@ -75,6 +83,7 @@ class CartController extends Controller
         if ($request->action === 'plus') {
             if ($cart->quantity < $cart->product->stok) {
                 $cart->quantity += 1;
+                $cart->expires_at = now()->addDays(self::CART_EXPIRY_DAYS);
                 $cart->save();
             } else {
                 return redirect()
@@ -87,6 +96,7 @@ class CartController extends Controller
         } elseif ($request->action === 'minus') {
             if ($cart->quantity > 1) {
                 $cart->quantity -= 1;
+                $cart->expires_at = now()->addDays(self::CART_EXPIRY_DAYS);
                 $cart->save();
             } else {
                 $cart->delete();
@@ -111,5 +121,17 @@ class CartController extends Controller
         return redirect()
             ->route('keranjang')
             ->with('success', 'Produk dihapus dari keranjang.');
+    }
+
+    private function removeExpiredCarts(): void
+    {
+        Cart::where('user_id', auth()->id())
+            ->whereNull('expires_at')
+            ->update(['expires_at' => now()->addDays(self::CART_EXPIRY_DAYS)]);
+
+        Cart::where('user_id', auth()->id())
+            ->whereNotNull('expires_at')
+            ->where('expires_at', '<=', Carbon::now())
+            ->delete();
     }
 }

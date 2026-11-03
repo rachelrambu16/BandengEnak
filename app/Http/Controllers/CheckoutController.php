@@ -7,11 +7,14 @@ use App\Models\Cart;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use App\Services\MidtransPaymentService;
 
 class CheckoutController extends Controller
 {
     public function index()
     {
+        $this->removeExpiredCarts();
         $carts = Cart::with('product')->where('user_id', auth()->id())->get();
         if ($carts->isEmpty()) {
             return redirect()->route('katalog');
@@ -24,9 +27,9 @@ class CheckoutController extends Controller
         $request->validate([
             'shipping_address' => 'required|string',
             'phone' => 'required|string',
-            'payment_proof' => 'required|image|mimes:jpeg,png,jpg|max:5120'
         ]);
 
+        $this->removeExpiredCarts();
         $carts = Cart::with('product')->where('user_id', auth()->id())->get();
         if ($carts->isEmpty()) {
             return redirect()->route('katalog');
@@ -38,16 +41,15 @@ class CheckoutController extends Controller
         $shipping = 15000;
         $total = $subtotal + $shipping;
 
-        $proofPath = $request->file('payment_proof')->store('payment_proofs', 'public');
-
-        DB::transaction(function() use ($carts, $request, $total, $proofPath) {
+        $transaction = DB::transaction(function () use ($carts, $request, $total) {
             $transaction = Transaction::create([
                 'user_id' => auth()->id(),
                 'total_amount' => $total,
                 'shipping_address' => $request->shipping_address,
                 'phone' => $request->phone,
-                'payment_proof' => $proofPath,
-                'status' => 'pending'
+                'payment_order_id' => 'BE-' . Str::upper(Str::random(20)),
+                'payment_status' => 'pending',
+                'status' => 'pending',
             ]);
 
             foreach ($carts as $cart) {
@@ -67,8 +69,65 @@ class CheckoutController extends Controller
                         }
 
             Cart::where('user_id', auth()->id())->delete();
+            return $transaction->load(['details.product', 'user']);
         });
 
-        return redirect()->route('checkout.success');
+        try {
+            $paymentToken = app(MidtransPaymentService::class)->createSnapToken($transaction);
+        } catch (\Throwable $exception) {
+            foreach ($transaction->details()->with('product')->get() as $detail) {
+                $detail->product?->increment('stok', $detail->quantity);
+            }
+
+            $transaction->update([
+                'payment_status' => 'failed',
+                'status' => 'dibatalkan',
+            ]);
+
+            report($exception);
+
+            return back()
+                ->withErrors(['payment' => 'Pembayaran tidak dapat dibuat. Silakan coba lagi.'])
+                ->withInput();
+        }
+
+        $transaction->update([
+            'payment_token' => $paymentToken,
+            'payment_expires_at' => now()->addDay(),
+        ]);
+
+        return redirect()->route('checkout.success', $transaction);
+    }
+
+    public function success(Transaction $transaction)
+    {
+        abort_unless($transaction->user_id === auth()->id(), 403);
+
+        return view('success', compact('transaction'));
+    }
+
+    public function notification(MidtransPaymentService $paymentService)
+    {
+        try {
+            $paymentService->syncNotification();
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            return response()->json(['message' => 'notifikasi pembayaran tidak valid.'], 422);
+        }
+
+        return response()->json(['message' => 'notifikasi pembayaran diproses.']);
+    }
+
+    private function removeExpiredCarts(): void
+    {
+        Cart::where('user_id', auth()->id())
+            ->whereNull('expires_at')
+            ->update(['expires_at' => now()->addDays(30)]);
+
+        Cart::where('user_id', auth()->id())
+            ->whereNotNull('expires_at')
+            ->where('expires_at', '<=', now())
+            ->delete();
     }
 }

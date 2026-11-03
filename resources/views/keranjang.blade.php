@@ -44,6 +44,7 @@
                         <div class="flex-1 text-center sm:text-left">
                             <h3 class="text-lg font-bold text-gray-900 mb-1">{{ $cart->product->nama_produk }}</h3>
                             <p class="text-orange-600 font-semibold mb-2">Rp {{ number_format($cart->product->harga, 0, ',', '.') }}</p>
+                            <p class="text-xs text-gray-500 mb-2">Berlaku sampai {{ optional($cart->expires_at)->format('d M Y, H:i') }} WIB</p>
                             <div class="inline-flex items-center rounded-xl border border-orange-200 bg-orange-50/50 overflow-hidden mt-1">
                                 <form action="{{ route('keranjang.update', $cart->id) }}" method="POST" class="inline">
                                     @csrf

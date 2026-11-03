@@ -6,9 +6,10 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.5.12",
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
+        "midtrans/midtrans-php": "^2.3",
         "spatie/laravel-backup": "^10.2"
     },
     "require-dev": {

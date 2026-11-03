@@ -89,15 +89,9 @@
                                     
                                     <div class="space-y-3 mb-6">
                                         <div>
-                                            <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Bukti Pembayaran</p>
-                                            @if($tx->payment_proof)
-                                                <a href="{{ asset('storage/' . $tx->payment_proof) }}" target="_blank" class="text-sm font-medium text-orange-600 hover:text-orange-700 underline flex items-center gap-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                                                    Lihat Bukti
-                                                </a>
-                                            @else
-                                                <span class="text-sm text-red-500 italic">Belum diunggah</span>
-                                            @endif
+                                            <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Pembayaran</p>
+                                            <span class="text-sm text-gray-700">{{ $tx->payment_type ?? 'Midtrans Snap' }}</span>
+                                            <span class="block text-xs text-gray-500 capitalize">{{ $tx->payment_status }}</span>
                                         </div>
                                         
                                         <div>

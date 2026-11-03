@@ -24,7 +24,7 @@
                     <th class="px-6 py-4 font-medium">Pelanggan</th>
                     <th class="px-6 py-4 font-medium">Produk</th>
                     <th class="px-6 py-4 font-medium">Kontak & Pengiriman</th>
-                    <th class="px-6 py-4 font-medium">Bukti Bayar</th>
+                    <th class="px-6 py-4 font-medium">Pembayaran</th>
                     <th class="px-6 py-4 font-medium">Total Harga</th>
                     <th class="px-6 py-4 font-medium">Status</th>
                     <th class="px-6 py-4 font-medium text-right">Aksi</th>
@@ -47,14 +47,8 @@
                         <div class="text-gray-500 text-xs truncate max-w-[200px]" title="{{ $tx->shipping_address }}">{{ $tx->shipping_address }}</div>
                     </td>
                     <td class="px-6 py-4">
-                        @if($tx->payment_proof)
-                            <a href="{{ asset('storage/' . $tx->payment_proof) }}" target="_blank" class="text-orange-600 hover:text-orange-500 hover:underline text-xs flex items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><circle cx="10" cy="13" r="2"/><path d="m16 17-2-2"/></svg>
-                                Lihat Bukti
-                            </a>
-                        @else
-                            <span class="text-gray-400 text-xs">Belum ada</span>
-                        @endif
+                        <div class="text-gray-900 text-xs">{{ $tx->payment_type ?? 'Midtrans Snap' }}</div>
+                        <div class="text-gray-500 text-xs capitalize">{{ $tx->payment_status }}</div>
                     </td>
                     <td class="px-6 py-4 font-bold text-gray-900">
                         Rp {{ number_format($tx->total_amount, 0, ',', '.') }}

@@ -65,9 +65,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'process'])
         ->name('checkout.process');
 
-    Route::get('/checkout/success', function () {
-        return view('success');
-    })->name('checkout.success');
+    Route::get('/checkout/success/{transaction}', [CheckoutController::class, 'success'])
+        ->name('checkout.success');
 
     // Riwayat pesanan
     Route::get('/riwayat', [PageController::class, 'riwayat'])
@@ -151,3 +150,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profil-pelanggan', [AuthController::class, 'updateProfilPelanggan'])
         ->name('pelanggan.profil.update');
 });
+
+Route::post('/midtrans/notification', [CheckoutController::class, 'notification'])
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class])
+    ->name('midtrans.notification');
