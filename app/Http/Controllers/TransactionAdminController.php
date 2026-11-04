@@ -15,14 +15,26 @@ class TransactionAdminController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $this->authorizeAdminOrKaryawan();
-        
-        $transactions = Transaction::with(['user', 'details.product'])->orderBy('created_at', 'desc')->get();
-        return view('admin.transactions.index', compact('transactions'));
-    }
+    $this->authorizeAdminOrKaryawan();
 
+    $search = $request->input('search');
+
+    $transactions = Transaction::with(['user', 'details.product'])
+        ->when($search, function ($query, $search) {
+            return $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                  ->orWhereHas('user', function ($userQuery) use ($search) {
+                      $userQuery->where('name', 'like', "%{$search}%");
+                  });
+            });
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('admin.transactions.index', compact('transactions', 'search'));
+    }
     public function updateStatus(Request $request, $id)
     {
         $this->authorizeAdminOrKaryawan();

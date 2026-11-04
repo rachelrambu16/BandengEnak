@@ -8,6 +8,24 @@
     </div>
 </div>
 
+{{-- Pencarian Data Pesanan --}}
+<div class="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 mb-6">
+    <form action="{{ route('admin.transactions.index') }}" method="GET"
+          class="flex flex-col sm:flex-row items-center gap-2">
+
+        <input type="text"
+               name="search"
+               value="{{ request('search') }}"
+               placeholder="Cari ID pesanan atau nama pelanggan..."
+               class="w-full sm:max-w-md border border-orange-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-500">
+
+        <button type="submit"
+                class="w-full sm:w-auto px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-semibold hover:bg-orange-600 transition-colors">
+            Cari
+        </button>
+    </form>
+</div>
+
 @if(session('success'))
     <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-6 flex items-start gap-3 shadow-sm">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 flex-shrink-0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
@@ -80,7 +98,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="px-6 py-8 text-center text-gray-500">Belum ada pesanan masuk.</td>
+                    <td colspan="8" class="px-6 py-8 text-center text-gray-500">Data tidak ditemukan</td>
                 </tr>
                 @endforelse
             </tbody>
