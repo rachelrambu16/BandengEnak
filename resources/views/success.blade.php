@@ -27,7 +27,10 @@
             window.snap.pay(@json($transaction->payment_token), {
                 onSuccess: function () { window.location.reload(); },
                 onPending: function () { window.location.reload(); },
-                onError: function () { window.location.reload(); },
+                onError: function (result) {
+                    alert('Pembayaran gagal dibuat. Silakan coba lagi.');
+                    console.error(result);
+                },
                 onClose: function () {}
             });
         });

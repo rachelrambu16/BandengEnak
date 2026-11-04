@@ -11,6 +11,14 @@ class MidtransPaymentService
 {
     public function __construct()
     {
+        if (! function_exists('curl_init')) {
+            throw new \RuntimeException('PHP cURL extension is required for Midtrans payments.');
+        }
+
+        if (! config('services.midtrans.server_key') || ! config('services.midtrans.client_key')) {
+            throw new \RuntimeException('Midtrans server and client keys are not configured.');
+        }
+
         Config::$serverKey = config('services.midtrans.server_key');
         Config::$isProduction = config('services.midtrans.is_production');
         Config::$isSanitized = true;
